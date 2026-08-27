@@ -9,18 +9,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 import com.example.myhealth.ui.MyHealthApp
-//import com.example.myhealth.ui.theme.MyHealthTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         setContent {
-//            MyHealthTheme {
+            MyHealthTheme {
                 MyHealthApp()
-//            }
+            }
         }
     }
 }
