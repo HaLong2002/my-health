@@ -8,7 +8,7 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Search
 
-object AppIcons {
+object MyHealthIcons {
     val ArrowBack = Icons.AutoMirrored.Rounded.ArrowBack
     val Home = Icons.Rounded.Home
     val HomeBorder = Icons.Outlined.Home
