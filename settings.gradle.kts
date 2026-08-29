@@ -27,4 +27,4 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "MyHealth"
 include(":app")
 include(":core:designsystem")
-include(":feature:home:api")
+include(":core:navigation")

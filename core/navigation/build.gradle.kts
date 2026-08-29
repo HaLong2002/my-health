@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myhealth.feature.home.api"
+    namespace = "com.example.myhealth.core.navigation"
     compileSdk {
         version = release(37)
     }
@@ -23,7 +23,9 @@ android {
 dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.runtime)
     implementation(libs.material)
+    implementation(libs.navigation3.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)

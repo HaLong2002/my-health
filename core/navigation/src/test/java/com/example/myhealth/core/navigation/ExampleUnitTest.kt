@@ -1,4 +1,4 @@
-package com.example.myhealth.feature.home.api
+package com.example.myhealth.core.navigation
 
 import org.junit.Test
 

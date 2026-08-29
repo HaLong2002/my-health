@@ -1,4 +1,4 @@
-package com.example.myhealth.feature.home.api
+package com.example.myhealth.core.navigation
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.myhealth.feature.home.api.test", appContext.packageName)
+        assertEquals("com.example.myhealth.core.navigation.test", appContext.packageName)
     }
 }
