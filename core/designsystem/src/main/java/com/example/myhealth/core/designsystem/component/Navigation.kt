@@ -6,14 +6,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteColors
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteItemColors
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 
 @Composable
-fun RowScope.MyHealthNavigationBarItem(
+fun RowScope.MHNavigationBarItem(
     modifier: Modifier = Modifier,
     selected: Boolean,
     onClick: () -> Unit,
@@ -28,28 +34,95 @@ fun RowScope.MyHealthNavigationBarItem(
         icon = if (selected) selectedIcon else icon,
         label = label,
         colors = NavigationBarItemDefaults.colors(
-            selectedIconColor = MyHealthNavigationDefaults.navigationSelectedItemColor(),
-            unselectedIconColor = MyHealthNavigationDefaults.navigationContentColor(),
-            indicatorColor = MyHealthNavigationDefaults.navigationIndicatorColor(),
+            selectedIconColor = MHNavigationDefaults.navigationSelectedItemColor(),
+            unselectedIconColor = MHNavigationDefaults.navigationContentColor(),
+            selectedTextColor = MHNavigationDefaults.navigationSelectedItemColor(),
+            unselectedTextColor = MHNavigationDefaults.navigationContentColor(),
+            indicatorColor = MHNavigationDefaults.navigationIndicatorColor(),
         )
     )
 }
 
 @Composable
-fun MyHealthNavigationBar(
+fun MHNavigationBar(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit,
 ) {
     NavigationBar(
         modifier = modifier,
-        contentColor = MyHealthNavigationDefaults.navigationContentColor(),
+        contentColor = MHNavigationDefaults.navigationContentColor(),
         content = content
+    )
+}
+
+@Composable
+fun MHNavigationSuiteScaffold(
+    navigationSuiteItems: MHNavigationSuiteScope.() -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    val navigationSuiteItemColors = NavigationSuiteItemColors(
+        navigationBarItemColors = NavigationBarItemDefaults.colors(
+            selectedIconColor = MHNavigationDefaults.navigationSelectedItemColor(),
+            unselectedIconColor = MHNavigationDefaults.navigationContentColor(),
+            selectedTextColor = MHNavigationDefaults.navigationSelectedItemColor(),
+            unselectedTextColor = MHNavigationDefaults.navigationContentColor(),
+            indicatorColor = MHNavigationDefaults.navigationIndicatorColor(),
+        ),
+        navigationRailItemColors = NavigationRailItemDefaults.colors(
+            selectedIconColor = MHNavigationDefaults.navigationSelectedItemColor(),
+            unselectedIconColor = MHNavigationDefaults.navigationContentColor(),
+            selectedTextColor = MHNavigationDefaults.navigationSelectedItemColor(),
+            unselectedTextColor = MHNavigationDefaults.navigationContentColor(),
+            indicatorColor = MHNavigationDefaults.navigationIndicatorColor(),
+        ),
+        navigationDrawerItemColors = NavigationDrawerItemDefaults.colors(
+            selectedIconColor = MHNavigationDefaults.navigationSelectedItemColor(),
+            unselectedIconColor = MHNavigationDefaults.navigationContentColor(),
+            selectedTextColor = MHNavigationDefaults.navigationSelectedItemColor(),
+            unselectedTextColor = MHNavigationDefaults.navigationContentColor(),
+        ),
+    )
+
+    NavigationSuiteScaffold(
+        navigationSuiteItems = {
+            MHNavigationSuiteScope(
+                navigationSuiteScope = this,
+                navigationSuiteItemColors = navigationSuiteItemColors,
+            ).run(navigationSuiteItems)
+        },
+        modifier = modifier,
+    ) {
+        content()
+    }
+}
+
+class MHNavigationSuiteScope internal constructor(
+    private val navigationSuiteScope: NavigationSuiteScope,
+    private val navigationSuiteItemColors: NavigationSuiteItemColors,
+) {
+    fun item(
+        selected: Boolean,
+        onClick: () -> Unit,
+        modifier: Modifier,
+        icon: @Composable () -> Unit,
+        selectedIcon: @Composable () -> Unit,
+        label: @Composable (() -> Unit)? = null,
+    ) = navigationSuiteScope.item(
+        selected = selected,
+        onClick = onClick,
+        icon = {
+            if (selected) selectedIcon() else icon()
+        },
+        label = label,
+        colors = navigationSuiteItemColors,
+        modifier = modifier,
     )
 }
 
 @ThemePreviews
 @Composable
-fun MyHealthNavigationBarPreview() {
+fun MHNavigationBarPreview() {
     val items = listOf("Home", "Person")
     val icons = listOf(
         MyHealthIcons.HomeBorder,
@@ -61,9 +134,9 @@ fun MyHealthNavigationBarPreview() {
     )
 
     MyHealthTheme {
-        MyHealthNavigationBar {
+        MHNavigationBar {
             items.forEachIndexed { index, item ->
-                MyHealthNavigationBarItem(
+                MHNavigationBarItem(
                     selected = index == 0,
                     onClick = {},
                     icon = {
@@ -85,7 +158,7 @@ fun MyHealthNavigationBarPreview() {
     }
 }
 
-object MyHealthNavigationDefaults {
+object MHNavigationDefaults {
     @Composable
     fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
 
