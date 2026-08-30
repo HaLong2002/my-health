@@ -1,46 +1,63 @@
 package com.example.myhealth.ui
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import com.example.myhealth.AppDestinations
-import com.example.myhealth.Greeting
+import androidx.compose.ui.res.stringResource
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
+import com.example.myhealth.core.designsystem.component.MHNavigationSuiteScaffold
+import com.example.myhealth.core.navigation.Navigator
+import com.example.myhealth.core.navigation.toEntries
+import com.example.myhealth.navigation.TOP_LEVEL_ITEMS
+import com.example.myhealth.ui.account.accountEntry
+import com.example.myhealth.ui.home.homeEntry
 
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
-fun MyHealthApp() {
-    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
+fun MyHealthApp(
+    appState: MyHealthAppState,
+) {
+    val navigator = remember { Navigator(appState.navigationState) }
 
-    NavigationSuiteScaffold(
+    MHNavigationSuiteScaffold(
         navigationSuiteItems = {
-            AppDestinations.entries.forEach {
+            TOP_LEVEL_ITEMS.forEach { (navKey, navItem) ->
+                val selected = navKey == appState.navigationState.currentTopLevelKey
                 item(
+                    selected = selected,
+                    onClick = { navigator.navigate(navKey) },
                     icon = {
                         Icon(
-                            painterResource(it.icon),
-                            contentDescription = it.label
+                            imageVector = navItem.unselectedIcon,
+                            contentDescription = null,
                         )
                     },
-                    label = { Text(it.label) },
-                    selected = it == currentDestination,
-                    onClick = { currentDestination = it }
+                    selectedIcon = {
+                        Icon(
+                            imageVector = navItem.selectedIcon,
+                            contentDescription = null,
+                        )
+                    },
+                    label = { Text(stringResource(navItem.iconTextId)) },
                 )
             }
         }
     ) {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            Greeting(
-                name = "Android",
-                modifier = Modifier.padding(innerPadding)
+        val entryProvider = entryProvider {
+            homeEntry(navigator)
+            accountEntry(navigator)
+        }
+        Scaffold { padding ->
+            NavDisplay(
+                modifier = Modifier.padding(padding),
+                entries = appState.navigationState.toEntries(entryProvider),
+                onBack = { navigator.goBack() },
             )
         }
     }

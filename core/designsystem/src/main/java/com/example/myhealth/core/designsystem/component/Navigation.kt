@@ -9,7 +9,6 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteColors
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteItemColors
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScope
@@ -104,7 +103,7 @@ class MHNavigationSuiteScope internal constructor(
     fun item(
         selected: Boolean,
         onClick: () -> Unit,
-        modifier: Modifier,
+        modifier: Modifier = Modifier,
         icon: @Composable () -> Unit,
         selectedIcon: @Composable () -> Unit,
         label: @Composable (() -> Unit)? = null,
