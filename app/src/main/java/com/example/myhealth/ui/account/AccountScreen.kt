@@ -1,11 +1,11 @@
-package com.example.myhealth.ui.person
+package com.example.myhealth.ui.account
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun PersonScreen(
+fun AccountScreen(
     onHomeClick: () -> Unit,
 ) {
     Button(
