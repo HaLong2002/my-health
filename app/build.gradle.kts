@@ -38,20 +38,17 @@ android {
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.activity.compose)
 
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.adaptive.navigation3)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
-
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-
-    // Navigation
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.navigation3.runtime)
 
@@ -63,4 +60,5 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     implementation(projects.core.designsystem)
+    implementation(projects.core.navigation)
 }
