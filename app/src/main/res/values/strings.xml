@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">My Health</string>
+    <string name="feature_home_api_title">Home</string>
+    <string name="feature_home_api_done">Done</string>
+    <string name="feature_home_api_loading">Loading for you…</string>
+    <string name="feature_account_api_title">Account</string>
 </resources>

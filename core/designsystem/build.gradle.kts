@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -24,11 +25,16 @@ android {
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui.text.google.fonts)
 
     implementation(libs.androidx.core.ktx)
 
     api(libs.androidx.compose.material.iconsExtended)
     api(libs.androidx.compose.material3)
+    api(libs.androidx.compose.runtime)
+    api(libs.androidx.compose.ui.tooling.preview)
+    api(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.material3.adaptive.navigation.suite)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,8 +1,10 @@
 package com.example.myhealth.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.myhealth.core.designsystem.icon.AppIcons
-import com.example.myhealth.feature.home.api.R as homeR
+import com.example.myhealth.R
+import com.example.myhealth.core.designsystem.icon.MyHealthIcons
+import com.example.myhealth.ui.account.AccountNavKey
+import com.example.myhealth.ui.home.HomeNavKey
 
 data class TopLevelNavItem (
     val selectedIcon: ImageVector,
@@ -12,15 +14,20 @@ data class TopLevelNavItem (
 )
 
 val HOME = TopLevelNavItem(
-    selectedIcon = AppIcons.Home,
-    unselectedIcon = AppIcons.HomeBorder,
-    iconTextId = homeR.string.feature_home_api_title,
-    titleTextId = homeR.string.feature_home_api_title
+    selectedIcon = MyHealthIcons.Home,
+    unselectedIcon = MyHealthIcons.HomeBorder,
+    iconTextId = R.string.feature_home_api_title,
+    titleTextId = R.string.feature_home_api_title
 )
 
 val ACCOUNT = TopLevelNavItem(
-    selectedIcon = AppIcons.Person,
-    unselectedIcon = AppIcons.PersonBorder,
-    iconTextId = homeR.string.feature_account_api_title,
-    titleTextId = homeR.string.feature_account_api_title
+    selectedIcon = MyHealthIcons.Person,
+    unselectedIcon = MyHealthIcons.PersonBorder,
+    iconTextId = R.string.feature_account_api_title,
+    titleTextId = R.string.feature_account_api_title
+)
+
+val TOP_LEVEL_ITEMS = mapOf(
+    HomeNavKey to HOME,
+    AccountNavKey to ACCOUNT,
 )
