@@ -17,6 +17,7 @@ import com.example.myhealth.core.navigation.toEntries
 import com.example.myhealth.navigation.TOP_LEVEL_ITEMS
 import com.example.myhealth.ui.account.accountEntry
 import com.example.myhealth.ui.home.homeEntry
+import com.example.myhealth.ui.recipes.recipesEntry
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
@@ -52,6 +53,7 @@ fun MyHealthApp(
         val entryProvider = entryProvider {
             homeEntry(navigator)
             accountEntry(navigator)
+            recipesEntry(navigator)
         }
         Scaffold { padding ->
             NavDisplay(
