@@ -1,7 +1,18 @@
 <resources>
     <string name="app_name">My Health</string>
-    <string name="feature_home_api_title">Home</string>
-    <string name="feature_home_api_done">Done</string>
-    <string name="feature_home_api_loading">Loading for you…</string>
-    <string name="feature_account_api_title">Account</string>
+
+    <!-- Home -->
+    <string name="feature_home_title">Home</string>
+    <string name="feature_home_done">Done</string>
+    <string name="feature_home_loading">Loading for you…</string>
+
+    <!-- Account -->
+    <string name="feature_account_title">Account</string>
+
+    <!-- My Recipes -->
+    <string name="feature_my_recipes_top_app_bar_navigation_icon_description">Search</string>
+    <string name="feature_my_recipes_top_app_bar_action_icon_description">Filter</string>
+    <string name="feature_my_recipes_title">My Recipes</string>
+    <string name="feature_my_recipes_empty_error">No saved recipes</string>
+    <string name="feature_my_recipes_empty_description">Recipes you save will be stored here</string>
 </resources>
