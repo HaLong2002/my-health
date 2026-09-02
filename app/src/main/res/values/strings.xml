@@ -3,6 +3,7 @@
     <string name="top_app_bar_filter_icon_description">Filter</string>
     <string name="top_app_bar_search_icon_description">Search</string>
     <string name="top_app_bar_add_icon_description">Add</string>
+    <string name="top_app_bar_back_icon_description">Back</string>
 
     <!-- Home -->
     <string name="feature_home_title">Home</string>
@@ -20,6 +21,7 @@
     <!-- Groceries -->
     <string name="feature_groceries_title">My Shopping</string>
     <string name="feature_groceries_icon_text">Groceries</string>
+    <string name="feature_groceries_save_button">Save</string>
     <string name="feature_groceries_empty_error">No saved shopping list</string>
     <string name="feature_groceries_empty_description">Shopping list you save will be stored here</string>
 </resources>
