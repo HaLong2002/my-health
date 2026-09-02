@@ -5,7 +5,7 @@ import com.example.myhealth.core.navigation.Navigator
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object HomeNavKey : NavKey {}
+object HomeNavKey : NavKey {}
 
 fun Navigator.navigateToHome() {
     navigate(HomeNavKey)

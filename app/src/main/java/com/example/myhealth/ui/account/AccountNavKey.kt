@@ -5,7 +5,7 @@ import com.example.myhealth.core.navigation.Navigator
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object AccountNavKey : NavKey {}
+object AccountNavKey : NavKey {}
 
 fun Navigator.navigateToAccount() {
     navigate(AccountNavKey)

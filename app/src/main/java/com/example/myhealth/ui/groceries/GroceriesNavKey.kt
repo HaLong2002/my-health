@@ -1,7 +1,7 @@
-package com.example.myhealth.ui.recipes
+package com.example.myhealth.ui.groceries
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-object RecipesNavKey : NavKey
+object GroceriesNavKey : NavKey
