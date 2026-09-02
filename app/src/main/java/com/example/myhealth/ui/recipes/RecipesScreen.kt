@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
@@ -46,9 +47,9 @@ fun RecipesScreen(
         MyHealthTopAppBar(
             titleRes = R.string.feature_my_recipes_title,
             navigationIcon = MyHealthIcons.Search,
-            navigationIconContentDescription = stringResource(R.string.feature_my_recipes_top_app_bar_navigation_icon_description),
+            navigationIconContentDescription = stringResource(R.string.top_app_bar_search_icon_description),
             actionIcon = MyHealthIcons.Filter,
-            actionContentDescription = stringResource(R.string.feature_my_recipes_top_app_bar_action_icon_description),
+            actionContentDescription = stringResource(R.string.top_app_bar_filter_icon_description),
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Transparent,
             ),

@@ -39,7 +39,7 @@ val MY_RECIPES = TopLevelNavItem(
 val GROCERIES = TopLevelNavItem(
     selectedIcon = MyHealthIcons.ShoppingBag,
     unselectedIcon = MyHealthIcons.ShoppingBagBorder,
-    iconTextId = R.string.feature_groceries_title,
+    iconTextId = R.string.feature_groceries_icon_text,
     titleTextId = R.string.feature_groceries_title
 )
 

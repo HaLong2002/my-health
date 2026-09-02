@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">My Health</string>
+    <string name="top_app_bar_filter_icon_description">Filter</string>
+    <string name="top_app_bar_search_icon_description">Search</string>
+    <string name="top_app_bar_add_icon_description">Add</string>
 
     <!-- Home -->
     <string name="feature_home_title">Home</string>
@@ -10,12 +13,13 @@
     <string name="feature_account_title">Account</string>
 
     <!-- My Recipes -->
-    <string name="feature_my_recipes_top_app_bar_navigation_icon_description">Search</string>
-    <string name="feature_my_recipes_top_app_bar_action_icon_description">Filter</string>
     <string name="feature_my_recipes_title">My Recipes</string>
     <string name="feature_my_recipes_empty_error">No saved recipes</string>
     <string name="feature_my_recipes_empty_description">Recipes you save will be stored here</string>
 
     <!-- Groceries -->
-    <string name="feature_groceries_title">Groceries</string>
+    <string name="feature_groceries_title">My Shopping</string>
+    <string name="feature_groceries_icon_text">Groceries</string>
+    <string name="feature_groceries_empty_error">No saved shopping list</string>
+    <string name="feature_groceries_empty_description">Shopping list you save will be stored here</string>
 </resources>
