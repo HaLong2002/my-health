@@ -1,4 +1,4 @@
-package com.example.myhealth.ui.groceries
+package com.example.myhealth.ui.groceries.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +34,7 @@ import com.example.myhealth.core.designsystem.theme.LocalTintTheme
 @Composable
 fun GroceriesScreen(
     modifier: Modifier = Modifier,
-    onTopAppBarActionClick: () -> Unit,
+    onCreateGroceryListClick: () -> Unit,
 ) {
     Column(
         modifier = modifier.consumeWindowInsets(
@@ -48,7 +48,7 @@ fun GroceriesScreen(
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Transparent,
             ),
-            onActionClick = onTopAppBarActionClick,
+            onActionClick = onCreateGroceryListClick,
         )
 
         EmptyState()

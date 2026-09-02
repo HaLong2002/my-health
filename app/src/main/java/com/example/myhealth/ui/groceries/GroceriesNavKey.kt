@@ -5,3 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 object GroceriesNavKey : NavKey
+
+@Serializable
+object CreateGroceryListNavKey : NavKey
