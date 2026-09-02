@@ -15,4 +15,7 @@
     <string name="feature_my_recipes_title">My Recipes</string>
     <string name="feature_my_recipes_empty_error">No saved recipes</string>
     <string name="feature_my_recipes_empty_description">Recipes you save will be stored here</string>
+
+    <!-- Groceries -->
+    <string name="feature_groceries_title">Groceries</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.ui.account.AccountNavKey
+import com.example.myhealth.ui.groceries.GroceriesNavKey
 import com.example.myhealth.ui.home.HomeNavKey
 import com.example.myhealth.ui.recipes.RecipesNavKey
 
@@ -29,14 +30,22 @@ val ACCOUNT = TopLevelNavItem(
 )
 
 val MY_RECIPES = TopLevelNavItem(
-    selectedIcon = MyHealthIcons.Recipes,
-    unselectedIcon = MyHealthIcons.RecipesBorder,
+    selectedIcon = MyHealthIcons.CollectionBookmark,
+    unselectedIcon = MyHealthIcons.CollectionBookmarkBorder,
     iconTextId = R.string.feature_my_recipes_title,
     titleTextId = R.string.feature_my_recipes_title
+)
+
+val GROCERIES = TopLevelNavItem(
+    selectedIcon = MyHealthIcons.ShoppingBag,
+    unselectedIcon = MyHealthIcons.ShoppingBagBorder,
+    iconTextId = R.string.feature_groceries_title,
+    titleTextId = R.string.feature_groceries_title
 )
 
 val TOP_LEVEL_ITEMS = mapOf(
     HomeNavKey to HOME,
     RecipesNavKey to MY_RECIPES,
+    GroceriesNavKey to GROCERIES,
     AccountNavKey to ACCOUNT,
 )
