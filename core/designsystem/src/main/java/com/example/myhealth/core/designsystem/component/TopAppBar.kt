@@ -23,10 +23,10 @@ import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 fun MyHealthTopAppBar(
     modifier: Modifier = Modifier,
     @StringRes titleRes: Int,
-    navigationIcon: ImageVector,
-    navigationIconContentDescription: String,
+    navigationIcon: ImageVector? = null,
+    navigationIconContentDescription: String = "",
     actionIcon: ImageVector? = null,
-    actionContentDescription: String? = null,
+    actionContentDescription: String = "",
     colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(),
     onNavigationClick: () -> Unit = {},
     onActionClick: () -> Unit = {},
@@ -40,18 +40,20 @@ fun MyHealthTopAppBar(
             )
         },
         navigationIcon = {
-            IconButton(
-                onClick = onNavigationClick
-            ) {
-                Icon(
-                    imageVector = navigationIcon,
-                    contentDescription = navigationIconContentDescription,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                )
+            navigationIcon?.let {
+                IconButton(
+                    onClick = onNavigationClick
+                ) {
+                    Icon(
+                        imageVector = navigationIcon,
+                        contentDescription = navigationIconContentDescription,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
             }
         },
         actions = {
-            actionIcon?.let{
+            actionIcon?.let {
                 IconButton(
                     onClick = onActionClick
                 ) {

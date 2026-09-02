@@ -6,6 +6,8 @@ import com.example.myhealth.core.navigation.Navigator
 
 fun EntryProviderScope<NavKey>.groceriesEntry(navigator: Navigator) {
     entry< GroceriesNavKey> {
-        GroceriesScreen()
+        GroceriesScreen(
+            onTopAppBarActionClick = {}
+        )
     }
 }

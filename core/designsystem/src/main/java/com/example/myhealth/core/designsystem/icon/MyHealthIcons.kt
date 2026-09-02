@@ -3,6 +3,7 @@ package com.example.myhealth.core.designsystem.icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
@@ -16,6 +17,7 @@ import androidx.compose.material.icons.rounded.ShoppingBag
 
 object MyHealthIcons {
     val ArrowBack = Icons.AutoMirrored.Rounded.ArrowBack
+    val Add = Icons.Outlined.Add
     val Home = Icons.Rounded.Home
     val HomeBorder = Icons.Outlined.Home
     val Person = Icons.Rounded.Person
