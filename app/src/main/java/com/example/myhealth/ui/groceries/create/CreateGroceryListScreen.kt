@@ -3,32 +3,61 @@ package com.example.myhealth.ui.groceries.create
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.component.MHButton
+import com.example.myhealth.core.designsystem.component.MHTextField
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
+import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 
 @Composable
 fun CreateGroceryListScreen(
     modifier: Modifier = Modifier,
+    title: String = "",
     onBackClick: () -> Unit = {},
     onSaveClick: () -> Unit = {},
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .padding(top = 10.dp)
+            .consumeWindowInsets(
+                WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
+            )
     ) {
         CreateGroceryListToolbar(
             onBackClick = onBackClick,
             onSaveClick = onSaveClick,
+        )
+
+        CreateGroceryListForm(
+            title = title,
+            hintTitle = stringResource(id = R.string.feature_create_grocery_list_hint_title),
+            onTitleChanged = {}
         )
     }
 }
@@ -43,7 +72,9 @@ private fun CreateGroceryListToolbar(
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 1.dp),
     ) {
         if (showBackButton) {
             IconButton(onClick = { onBackClick() }) {
@@ -53,6 +84,7 @@ private fun CreateGroceryListToolbar(
                 )
             }
         }
+
         MHButton(
             onClick = { onSaveClick() },
             modifier = Modifier.padding(end = 16.dp)
@@ -61,5 +93,142 @@ private fun CreateGroceryListToolbar(
                 text = stringResource(id = R.string.feature_groceries_save_button)
             )
         }
+    }
+}
+
+@Composable
+private fun CreateGroceryListForm(
+    modifier: Modifier = Modifier,
+    title: String,
+    hintTitle: String,
+    onTitleChanged: (String) -> Unit,
+) {
+    LazyColumn(
+        modifier = modifier,
+    ) {
+        item("title") {
+            MHTextField(
+                trailingIcon = MyHealthIcons.Close,
+                trailingIconContentDescription = stringResource(id = R.string.text_field_clear_icon_description),
+                value = title,
+                hint = hintTitle,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier.padding(start = 40.dp),
+                onTrailingIconClick = { onTitleChanged("") },
+                onValueChange = onTitleChanged
+            )
+            HorizontalDivider()
+        }
+
+        item("time") {
+            Column(
+              modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                SwitchAllDaySection()
+                Spacer(modifier = Modifier.height(12.dp))
+                DateTimeSection()
+                Spacer(modifier = Modifier.height(12.dp))
+                RepeatSection()
+            }
+            HorizontalDivider()
+        }
+    }
+}
+
+@Composable
+fun SwitchAllDaySection() {
+    SettingsRow(
+        icon = MyHealthIcons.Time,
+        iconContentDescription = stringResource(id = R.string.time_icon)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(text = stringResource(id = R.string.feature_create_grocery_list_time_all_day))
+            Switch(checked = true, onCheckedChange = {})
+        }
+    }
+}
+
+@Composable
+fun DateTimeSection() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 40.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = "Friday, 4 Sep")
+        Text(text = "21:55")
+    }
+}
+
+@Composable
+fun RepeatSection() {
+    SettingsRow(
+        icon = MyHealthIcons.Repeat,
+        iconContentDescription = stringResource(id = R.string.repeat_icon)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(text = stringResource(id = R.string.feature_create_grocery_list_time_does_not_repeat))
+            Spacer(modifier = Modifier.width(16.dp))
+            IconButton(
+                onClick = {},
+            ) {
+                Icon(
+                    imageVector = MyHealthIcons.ExpandMore,
+                    contentDescription = stringResource(id = R.string.expand_more_icon)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun SettingsRow(
+    modifier: Modifier = Modifier,
+    icon: ImageVector,
+    iconContentDescription: String? = "",
+    content: @Composable RowScope.() -> Unit,
+) {
+    Row (
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = iconContentDescription
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+
+        content()
+    }
+}
+
+@Preview
+@Composable
+fun CreateGroceryListToolbarPreview() {
+    MyHealthTheme {
+        CreateGroceryListToolbar(
+            onSaveClick = {},
+            onBackClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+fun CreateGroceryListPreview() {
+    MyHealthTheme {
+        CreateGroceryListScreen(
+            onSaveClick = {},
+            onBackClick = {},
+        )
     }
 }
