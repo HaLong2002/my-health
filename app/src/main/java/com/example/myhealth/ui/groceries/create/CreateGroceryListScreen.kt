@@ -49,7 +49,7 @@ private fun CreateGroceryListToolbar(
             IconButton(onClick = { onBackClick() }) {
                 Icon(
                     imageVector = MyHealthIcons.ArrowBack,
-                    contentDescription = stringResource(id = R.string.top_app_bar_back_icon_description)
+                    contentDescription = stringResource(id = R.string.back_icon)
                 )
             }
         }

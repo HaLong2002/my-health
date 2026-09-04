@@ -44,7 +44,7 @@ fun GroceriesScreen(
         MyHealthTopAppBar(
             titleRes = R.string.feature_groceries_title,
             actionIcon = MyHealthIcons.Add,
-            actionContentDescription = stringResource(R.string.top_app_bar_add_icon_description),
+            actionContentDescription = stringResource(R.string.add_icon),
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Transparent,
             ),

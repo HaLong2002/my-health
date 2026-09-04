@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">My Health</string>
-    <string name="top_app_bar_filter_icon_description">Filter</string>
-    <string name="top_app_bar_search_icon_description">Search</string>
-    <string name="top_app_bar_add_icon_description">Add</string>
-    <string name="top_app_bar_back_icon_description">Back</string>
+    <string name="filter_icon">Filter</string>
+    <string name="search_icon">Search</string>
+    <string name="add_icon">Add</string>
+    <string name="back_icon">Back</string>
+    <string name="check_icon">Check</string>
+    <string name="text_field_clear_icon_description">Clear text</string>
+    <string name="time_icon">Time</string>
+    <string name="repeat_icon">Repeat</string>
+    <string name="expand_more_icon">Repeat</string>
 
     <!-- Home -->
     <string name="feature_home_title">Home</string>
@@ -24,4 +29,8 @@
     <string name="feature_groceries_save_button">Save</string>
     <string name="feature_groceries_empty_error">No saved shopping list</string>
     <string name="feature_groceries_empty_description">Shopping list you save will be stored here</string>
+    <string name="feature_create_grocery_list_title">Create Grocery List</string>
+    <string name="feature_create_grocery_list_hint_title">Add Title</string>
+    <string name="feature_create_grocery_list_time_all_day">All-day</string>
+    <string name="feature_create_grocery_list_time_does_not_repeat">Does not repeat</string>
 </resources>

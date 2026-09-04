@@ -46,9 +46,9 @@ fun RecipesScreen(
         MyHealthTopAppBar(
             titleRes = R.string.feature_my_recipes_title,
             navigationIcon = MyHealthIcons.Search,
-            navigationIconContentDescription = stringResource(R.string.top_app_bar_search_icon_description),
+            navigationIconContentDescription = stringResource(R.string.search_icon),
             actionIcon = MyHealthIcons.Filter,
-            actionContentDescription = stringResource(R.string.top_app_bar_filter_icon_description),
+            actionContentDescription = stringResource(R.string.filter_icon),
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Transparent,
             ),
