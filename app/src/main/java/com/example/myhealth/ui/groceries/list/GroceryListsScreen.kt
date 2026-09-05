@@ -32,7 +32,7 @@ import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.LocalTintTheme
 
 @Composable
-fun GroceriesScreen(
+fun GroceryListsScreen(
     modifier: Modifier = Modifier,
     onCreateGroceryListClick: () -> Unit,
 ) {

@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.ui.account.AccountNavKey
-import com.example.myhealth.ui.groceries.GroceriesNavKey
+import com.example.myhealth.ui.groceries.GroceryListsNavKey
 import com.example.myhealth.ui.home.HomeNavKey
 import com.example.myhealth.ui.recipes.RecipesNavKey
 
@@ -46,6 +46,6 @@ val GROCERIES = TopLevelNavItem(
 val TOP_LEVEL_ITEMS = mapOf(
     HomeNavKey to HOME,
     RecipesNavKey to MY_RECIPES,
-    GroceriesNavKey to GROCERIES,
+    GroceryListsNavKey to GROCERIES,
     AccountNavKey to ACCOUNT,
 )
