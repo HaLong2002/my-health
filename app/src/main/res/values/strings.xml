@@ -8,7 +8,8 @@
     <string name="text_field_clear_icon_description">Clear text</string>
     <string name="time_icon">Time</string>
     <string name="repeat_icon">Repeat</string>
-    <string name="expand_more_icon">Repeat</string>
+strings    <string name="expand_more_icon">Expand more</string>
+    <string name="check_list_icon">Check list</string>
 
     <!-- Home -->
     <string name="feature_home_title">Home</string>
@@ -33,4 +34,9 @@
     <string name="feature_create_grocery_list_hint_title">Add Title</string>
     <string name="feature_create_grocery_list_time_all_day">All-day</string>
     <string name="feature_create_grocery_list_time_does_not_repeat">Does not repeat</string>
+    <string name="feature_create_grocery_list_check_list">Grocery list</string>
+    <plurals name="feature_grocery_list_detail_title">
+        <item quantity="one">Grocery list (1 item)</item>
+        <item quantity="other">Grocery list (%d items)</item>
+    </plurals>
 </resources>

@@ -9,12 +9,14 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.ChecklistRtl
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.CollectionsBookmark
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.FilterList
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.ShoppingBag
@@ -22,9 +24,11 @@ import androidx.compose.material.icons.rounded.ShoppingBag
 object MyHealthIcons {
     val ArrowBack = Icons.AutoMirrored.Rounded.ArrowBack
     val Add = Icons.Rounded.Add
+    val Remove = Icons.Rounded.Remove
     val Close = Icons.Rounded.Close
     val Time = Icons.Rounded.AccessTime
     val Repeat = Icons.Rounded.Repeat
+    val CheckList = Icons.Rounded.ChecklistRtl
     val ExpandMore = Icons.Rounded.ExpandMore
     val Home = Icons.Rounded.Home
     val HomeBorder = Icons.Outlined.Home
