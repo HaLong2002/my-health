@@ -1,5 +1,6 @@
 package com.example.myhealth.ui.groceries.create
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,9 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.component.MHButton
 import com.example.myhealth.core.designsystem.component.MHTextField
@@ -41,6 +42,7 @@ fun CreateGroceryListScreen(
     title: String = "",
     onBackClick: () -> Unit = {},
     onSaveClick: () -> Unit = {},
+    onNavigateToGroceryList: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -57,7 +59,8 @@ fun CreateGroceryListScreen(
         CreateGroceryListForm(
             title = title,
             hintTitle = stringResource(id = R.string.feature_create_grocery_list_hint_title),
-            onTitleChanged = {}
+            onTitleChanged = {},
+            onGroceryList = onNavigateToGroceryList,
         )
     }
 }
@@ -102,6 +105,7 @@ private fun CreateGroceryListForm(
     title: String,
     hintTitle: String,
     onTitleChanged: (String) -> Unit,
+    onGroceryList: () -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
@@ -112,7 +116,7 @@ private fun CreateGroceryListForm(
                 trailingIconContentDescription = stringResource(id = R.string.text_field_clear_icon_description),
                 value = title,
                 hint = hintTitle,
-                textStyle = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 22.sp),
                 modifier = Modifier.padding(start = 40.dp),
                 onTrailingIconClick = { onTitleChanged("") },
                 onValueChange = onTitleChanged
@@ -120,16 +124,19 @@ private fun CreateGroceryListForm(
             HorizontalDivider()
         }
 
-        item("time") {
+        item("reminder") {
             Column(
-              modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+              modifier = Modifier.padding(16.dp)
             ) {
                 SwitchAllDaySection()
-                Spacer(modifier = Modifier.height(12.dp))
                 DateTimeSection()
-                Spacer(modifier = Modifier.height(12.dp))
                 RepeatSection()
             }
+            HorizontalDivider()
+        }
+
+        item("groceryList") {
+            GroceryListSection(onGroceryList = onGroceryList)
             HorizontalDivider()
         }
     }
@@ -150,6 +157,7 @@ fun SwitchAllDaySection() {
             Switch(checked = true, onCheckedChange = {})
         }
     }
+    Spacer(modifier = Modifier.height(12.dp))
 }
 
 @Composable
@@ -163,6 +171,7 @@ fun DateTimeSection() {
         Text(text = "Friday, 4 Sep")
         Text(text = "21:55")
     }
+    Spacer(modifier = Modifier.height(22.dp))
 }
 
 @Composable
@@ -178,14 +187,36 @@ fun RepeatSection() {
         ) {
             Text(text = stringResource(id = R.string.feature_create_grocery_list_time_does_not_repeat))
             Spacer(modifier = Modifier.width(16.dp))
-            IconButton(
-                onClick = {},
-            ) {
-                Icon(
-                    imageVector = MyHealthIcons.ExpandMore,
-                    contentDescription = stringResource(id = R.string.expand_more_icon)
-                )
-            }
+            Icon(
+                imageVector = MyHealthIcons.ExpandMore,
+                contentDescription = stringResource(id = R.string.expand_more_icon)
+            )
+        }
+    }
+}
+
+@Composable
+fun GroceryListSection(
+    onGroceryList: () -> Unit,
+) {
+    SettingsRow(
+        icon = MyHealthIcons.CheckList,
+        iconContentDescription = stringResource(id = R.string.check_list_icon),
+        modifier = Modifier
+            .clickable(onClick = onGroceryList)
+            .padding(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = stringResource(id = R.string.feature_create_grocery_list_check_list)
+            )
+            Icon(
+                imageVector = MyHealthIcons.ExpandMore,
+                contentDescription = stringResource(id = R.string.expand_more_icon)
+            )
         }
     }
 }
@@ -229,6 +260,7 @@ fun CreateGroceryListPreview() {
         CreateGroceryListScreen(
             onSaveClick = {},
             onBackClick = {},
+            onNavigateToGroceryList = {}
         )
     }
 }

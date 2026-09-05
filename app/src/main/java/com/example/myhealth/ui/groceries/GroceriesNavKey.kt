@@ -8,3 +8,6 @@ object GroceryListsNavKey : NavKey
 
 @Serializable
 object CreateGroceryListNavKey : NavKey
+
+@Serializable
+object GroceryListDetailNavKey : NavKey
