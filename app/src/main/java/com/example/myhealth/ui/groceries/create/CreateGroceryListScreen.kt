@@ -8,17 +8,16 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -32,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.component.MHButton
+import com.example.myhealth.core.designsystem.component.MHIconButton
 import com.example.myhealth.core.designsystem.component.MHTextField
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
@@ -45,11 +45,9 @@ fun CreateGroceryListScreen(
     onNavigateToGroceryList: () -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .padding(top = 10.dp)
-            .consumeWindowInsets(
-                WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
-            )
+        modifier = modifier.windowInsetsPadding(
+            WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
+        )
     ) {
         CreateGroceryListToolbar(
             onBackClick = onBackClick,
@@ -68,30 +66,22 @@ fun CreateGroceryListScreen(
 @Composable
 private fun CreateGroceryListToolbar(
     modifier: Modifier = Modifier,
-    showBackButton: Boolean = true,
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 1.dp),
+            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
     ) {
-        if (showBackButton) {
-            IconButton(onClick = { onBackClick() }) {
-                Icon(
-                    imageVector = MyHealthIcons.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back_icon)
-                )
-            }
-        }
+        MHIconButton(
+            icon = MyHealthIcons.ArrowBack,
+            iconContentDescription = stringResource(id = R.string.back_icon),
+            onClick = onBackClick
+        )
 
-        MHButton(
-            onClick = { onSaveClick() },
-            modifier = Modifier.padding(end = 16.dp)
-        ) {
+        MHButton(onClick = { onSaveClick() }) {
             Text(
                 text = stringResource(id = R.string.feature_groceries_save_button)
             )
