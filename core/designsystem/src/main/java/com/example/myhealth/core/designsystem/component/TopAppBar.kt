@@ -1,16 +1,20 @@
 package com.example.myhealth.core.designsystem.component
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,7 +26,7 @@ import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 @Composable
 fun MyHealthTopAppBar(
     modifier: Modifier = Modifier,
-    @StringRes titleRes: Int,
+    @StringRes titleRes: Int? = null,
     navigationIcon: ImageVector? = null,
     navigationIconContentDescription: String = "",
     actionIcon: ImageVector? = null,
@@ -34,10 +38,12 @@ fun MyHealthTopAppBar(
     CenterAlignedTopAppBar(
         modifier = modifier,
         title = {
-            Text(
-                text = stringResource(id = titleRes),
-                fontWeight = FontWeight.Bold
-            )
+            titleRes?.let {
+                Text(
+                    text = stringResource(id = titleRes),
+                    fontWeight = FontWeight.Bold
+                )
+            }
         },
         navigationIcon = {
             navigationIcon?.let {
@@ -69,6 +75,43 @@ fun MyHealthTopAppBar(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyHealthMediumTopAppBar(
+    modifier: Modifier = Modifier,
+    title: @Composable () -> Unit,
+    navigationIcon: ImageVector? = null,
+    navigationIconContentDescription: String = "",
+    actions: @Composable RowScope.() -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
+    colors: TopAppBarColors? = null,
+    onNavigationClick: () -> Unit = {},
+) {
+    MediumTopAppBar(
+        modifier = modifier,
+        title = title,
+        navigationIcon = {
+            navigationIcon?.let {
+                IconButton(
+                    onClick = onNavigationClick
+                ) {
+                    Icon(
+                        imageVector = navigationIcon,
+                        contentDescription = navigationIconContentDescription,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+            }
+        },
+        actions = actions,
+        colors = colors ?: TopAppBarDefaults.topAppBarColors(
+            scrolledContainerColor = Color.Transparent,
+            containerColor = Color.Transparent,
+        ),
+        scrollBehavior = scrollBehavior,
+    )
+}
+
 @Preview
 @Composable
 private fun MyHealthTopAppBarPreview() {
@@ -79,6 +122,40 @@ private fun MyHealthTopAppBarPreview() {
             navigationIconContentDescription = "Navigation icon",
             actionIcon = MyHealthIcons.MoreVert,
             actionContentDescription = "Action icon"
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+private fun MyHealthMediumTopAppBarPreview() {
+    MyHealthTheme {
+        MyHealthMediumTopAppBar(
+            title = {
+                Text(
+                    text = stringResource(android.R.string.untitled),
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            navigationIcon = MyHealthIcons.ArrowBack,
+            actions = {
+                IconButton(
+                    onClick = {}
+                ) {
+                    Icon(
+                        imageVector = MyHealthIcons.Add,
+                        contentDescription = "Add icon",
+                    )
+                }
+                MyHealthCheckbox(
+                    checked = false,
+                    onCheckedChange = {},
+                )
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                scrolledContainerColor = Color.Transparent,
+            ),
         )
     }
 }
