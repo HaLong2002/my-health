@@ -1,4 +1,4 @@
-package com.example.myhealth.ui.groceries
+package com.example.myhealth.ui.groceries.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey

@@ -1,12 +1,12 @@
-package com.example.myhealth.ui.home
+package com.example.myhealth.ui.account.navigation
 
 import androidx.navigation3.runtime.NavKey
 import com.example.myhealth.core.navigation.Navigator
 import kotlinx.serialization.Serializable
 
 @Serializable
-object HomeNavKey : NavKey {}
+object AccountNavKey : NavKey {}
 
-fun Navigator.navigateToHome() {
-    navigate(HomeNavKey)
+fun Navigator.navigateToAccount() {
+    navigate(AccountNavKey)
 }
