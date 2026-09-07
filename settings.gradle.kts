@@ -28,3 +28,4 @@ rootProject.name = "MyHealth"
 include(":app")
 include(":core:designsystem")
 include(":core:navigation")
+include(":core:model")
