@@ -2,7 +2,6 @@ package com.example.myhealth.core.database.di
 
 import com.example.myhealth.core.database.MyHealthDatabase
 import com.example.myhealth.core.database.dao.GroceryDao
-import com.example.myhealth.core.database.dao.GroceryListDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,9 +14,4 @@ internal object DaosModule {
     fun providesGroceryDao(
         database: MyHealthDatabase,
     ): GroceryDao = database.groceryDao()
-
-    @Provides
-    fun providesGroceryListDao(
-        database: MyHealthDatabase,
-    ): GroceryListDao = database.groceryListDao()
 }
