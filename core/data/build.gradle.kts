@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myhealth.core.database"
+    namespace = "com.example.myhealth.core.data"
     compileSdk {
         version = release(37)
     }
@@ -26,15 +26,13 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
-
-    implementation(libs.room3.runtime)
-    ksp(libs.room3.compiler)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
     implementation(projects.core.model)
+    implementation(projects.core.database)
 }
