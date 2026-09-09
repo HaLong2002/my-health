@@ -8,7 +8,7 @@ import androidx.room3.PrimaryKey
 )
 data class GroceryEntity(
     @PrimaryKey
-    val id: String,
+    val groceryId: Long,
     val groceryListId: String,
     val name: String,
     val quantity: Int,
