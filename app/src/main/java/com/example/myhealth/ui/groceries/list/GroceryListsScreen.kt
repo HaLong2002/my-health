@@ -2,6 +2,7 @@ package com.example.myhealth.ui.groceries.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,9 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,30 +24,55 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.component.MyHealthTopAppBar
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.LocalTintTheme
+import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 
 @Composable
 fun GroceryListsScreen(
     modifier: Modifier = Modifier,
+    viewModel: GroceryListsViewModel = hiltViewModel(),
     onCreateGroceryListClick: () -> Unit,
 ) {
-    Column(
-        modifier = modifier,
-    ) {
-        MyHealthTopAppBar(
-            titleRes = R.string.feature_groceries_title,
-            actionIcon = MyHealthIcons.Add,
-            actionContentDescription = stringResource(R.string.add_icon),
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.Transparent,
-            ),
-            onActionClick = onCreateGroceryListClick,
-        )
+    val groceryListsUiState: GroceryListsUiState by viewModel.groceryListsUiState.collectAsStateWithLifecycle()
 
-        EmptyState()
+    GroceryListsScreen(
+        groceryListsUiState = groceryListsUiState,
+        modifier = modifier,
+        onCreateGroceryListClick = onCreateGroceryListClick,
+    )
+}
+
+@Composable
+fun GroceryListsScreen(
+    groceryListsUiState: GroceryListsUiState,
+    modifier: Modifier = Modifier,
+    onCreateGroceryListClick: () -> Unit,
+) {
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            MyHealthTopAppBar(
+                titleRes = R.string.feature_groceries_title,
+                actionIcon = MyHealthIcons.Add,
+                actionContentDescription = stringResource(R.string.add_icon),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                ),
+                onActionClick = onCreateGroceryListClick,
+            )
+        }
+    ) { padding ->
+        Box(
+            modifier = Modifier.padding(padding)
+        ) {
+
+            EmptyState()
+        }
     }
 }
 
