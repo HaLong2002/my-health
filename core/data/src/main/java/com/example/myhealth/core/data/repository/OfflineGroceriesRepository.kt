@@ -13,7 +13,7 @@ internal class OfflineGroceriesRepository @Inject constructor(
     private val groceryDao: GroceryDao,
 ) : GroceriesRepository {
 
-    override fun getGroceryLists(): Flow<List<GroceryList>> = groceryDao
-        .observeGroceryLists()
-        .map { it.map(GroceryListEntity::asExternalModel) }
+    override fun getGroceryLists(): Flow<List<GroceryList>> =
+        groceryDao.observeGroceryLists()
+            .map { it.map(GroceryListEntity::asExternalModel) }
 }
