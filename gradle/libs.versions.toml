@@ -21,6 +21,7 @@ room = "3.0.2"
 jetbrainsKotlinJvm = "2.2.10"
 appcompat = "1.8.0"
 material = "1.14.0"
+kotlinxCoroutines = "1.10.2"
 
 [libraries]
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
@@ -48,6 +49,7 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 hilt-lifecylce-viewmodel-compose = { group = "androidx.hilt", name = "hilt-lifecycle-viewmodel-compose", version.ref = "hiltAndroidX"}
 room3-runtime = { group = "androidx.room3", name = "room3-runtime", version.ref = "room" }
 room3-compiler = { group = "androidx.room3", name = "room3-compiler", version.ref = "room" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines"}
 
 # Core Navigation 3 libraries
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
@@ -65,3 +67,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+androidx-room3 = { id = "androidx.room3", version.ref = "room" }
