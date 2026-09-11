@@ -12,6 +12,7 @@ import com.example.myhealth.core.database.model.GroceryListEntity
         GroceryListEntity::class,
     ],
     version = 1,
+    exportSchema = false,
 )
 internal abstract class MyHealthDatabase : RoomDatabase() {
     abstract fun groceryDao(): GroceryDao

@@ -2,6 +2,7 @@ package com.example.myhealth.core.designsystem.icon
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.Home
@@ -28,6 +29,7 @@ object MyHealthIcons {
     val Close = Icons.Rounded.Close
     val Time = Icons.Rounded.AccessTime
     val Repeat = Icons.Rounded.Repeat
+    val ArrowForward = Icons.AutoMirrored.Rounded.KeyboardArrowRight
     val CheckList = Icons.Rounded.ChecklistRtl
     val ExpandMore = Icons.Rounded.ExpandMore
     val Home = Icons.Rounded.Home
