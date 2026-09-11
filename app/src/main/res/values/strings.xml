@@ -6,6 +6,7 @@
     <string name="back_icon">Back</string>
     <string name="check_icon">Check</string>
     <string name="text_field_clear_icon_description">Clear text</string>
+    <string name="text_field_write_icon_description">Write text</string>
     <string name="time_icon">Time</string>
     <string name="repeat_icon">Repeat</string>
     <string name="arrow_forward_icon">Arrow forward</string>
@@ -32,10 +33,15 @@
     <string name="feature_groceries_save_button">Save</string>
     <string name="feature_groceries_empty_error">No saved shopping list</string>
     <string name="feature_groceries_empty_description">Shopping list you save will be stored here</string>
-    <string name="feature_create_grocery_list_title">Create Grocery List</string>
+    <string name="feature_create_grocery_list_title">New Grocery List</string>
     <string name="feature_create_grocery_list_hint_title">Add Title</string>
     <string name="feature_create_grocery_list_time_all_day">All-day</string>
     <string name="feature_create_grocery_list_time_does_not_repeat">Does not repeat</string>
+    <string name="feature_create_grocery_list_time_every_day">Every day</string>
+    <string name="feature_create_grocery_list_time_every_week">Every week</string>
+    <string name="feature_create_grocery_list_time_every_month">Every month</string>
+    <string name="feature_create_grocery_list_time_every_year">Every year</string>
+    <string name="feature_create_grocery_list_time_custom">Custom...</string>
     <string name="feature_create_grocery_list_check_list">Grocery list</string>
     <plurals name="feature_grocery_list_detail_title">
         <item quantity="one">Grocery list (1 item)</item>

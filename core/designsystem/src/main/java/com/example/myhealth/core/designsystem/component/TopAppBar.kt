@@ -1,7 +1,9 @@
 package com.example.myhealth.core.designsystem.component
 
+import android.R
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -9,6 +11,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -112,12 +115,59 @@ fun MyHealthMediumTopAppBar(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyHealthFormTopAppBar(
+    modifier: Modifier = Modifier,
+    @StringRes titleRes: Int,
+    navigationIcon: ImageVector,
+    navigationIconContentDescription: String,
+    @StringRes actionText: Int,
+    onNavigationClick: () -> Unit = {},
+    onActionClick: () -> Unit = {},
+) {
+    TopAppBar(
+        modifier = modifier,
+        title = {
+            Text(
+                text = stringResource(id = titleRes),
+                style = MaterialTheme.typography.headlineMedium
+            )
+        },
+        navigationIcon = {
+            IconButton(
+                onClick = onNavigationClick
+            ) {
+                Icon(
+                    imageVector = navigationIcon,
+                    contentDescription = navigationIconContentDescription,
+                    tint = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+        },
+        actions = {
+            MHElevatedButton(
+                onClick = onActionClick,
+                colors = ButtonDefaults.textButtonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                ),
+            ) {
+                Text(
+                    text = stringResource(id = actionText),
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+        },
+    )
+}
+
 @Preview
 @Composable
-private fun MyHealthTopAppBarPreview() {
+private fun TopAppBarPreview() {
     MyHealthTheme {
         MyHealthTopAppBar(
-            titleRes = android.R.string.untitled,
+            titleRes = R.string.untitled,
             navigationIcon = MyHealthIcons.Search,
             navigationIconContentDescription = "Navigation icon",
             actionIcon = MyHealthIcons.MoreVert,
@@ -129,12 +179,12 @@ private fun MyHealthTopAppBarPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-private fun MyHealthMediumTopAppBarPreview() {
+private fun MediumTopAppBarPreview() {
     MyHealthTheme {
         MyHealthMediumTopAppBar(
             title = {
                 Text(
-                    text = stringResource(android.R.string.untitled),
+                    text = stringResource(R.string.untitled),
                     fontWeight = FontWeight.Bold
                 )
             },
@@ -156,6 +206,19 @@ private fun MyHealthMediumTopAppBarPreview() {
             colors = TopAppBarDefaults.topAppBarColors(
                 scrolledContainerColor = Color.Transparent,
             ),
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun FormTopAppBarPreview() {
+    MyHealthTheme {
+        MyHealthFormTopAppBar(
+            titleRes = R.string.untitled,
+            navigationIcon = MyHealthIcons.ArrowBack,
+            navigationIconContentDescription = "Navigation icon",
+            actionText = R.string.ok,
         )
     }
 }
