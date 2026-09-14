@@ -1,0 +1,233 @@
+package com.example.myhealth.ui.groceries.create
+
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.myhealth.R
+import com.example.myhealth.core.designsystem.component.MHButton
+import com.example.myhealth.core.designsystem.component.MHTextField
+import com.example.myhealth.core.designsystem.icon.MyHealthIcons
+import com.example.myhealth.core.designsystem.theme.MyHealthTheme
+import com.example.myhealth.core.model.RepeatType
+
+@Composable
+fun GroceryListForm(
+    modifier: Modifier = Modifier,
+    title: String,
+    checkedAllDay: Boolean,
+    onTitleChanged: (String) -> Unit,
+    onSwitchAllDay: (Boolean) -> Unit,
+    onRepeatTypeChanged: (RepeatType) -> Unit,
+    onGroceryListClick: () -> Unit,
+    onSave: () -> Unit,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+    ) {
+        CardItem {
+            MHTextField(
+                leadingIcon = MyHealthIcons.Edit,
+                leadingIconContentDescription = stringResource(R.string.text_field_write_icon_description),
+                trailingIcon = MyHealthIcons.Close,
+                trailingIconContentDescription = stringResource(id = R.string.text_field_clear_icon_description),
+                value = title,
+                hint = stringResource(id = R.string.feature_create_grocery_list_hint_title),
+                textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                onTrailingIconClick = { onTitleChanged("") },
+                onValueChange = onTitleChanged
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        CardItem {
+            Column(
+                modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
+            ) {
+                SwitchAllDaySection(
+                    value = checkedAllDay,
+                    onCheckedChange = onSwitchAllDay
+                )
+                DateTimeSection()
+                RepeatSection()
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        CardItem {
+            GroceryListSection(onGroceryList = onGroceryListClick)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        MHButton(
+            onClick = onSave,
+        ) {
+            Text(text = stringResource(id = R.string.feature_groceries_save_button))
+        }
+    }
+}
+
+@Composable
+private fun CardItem(
+    modifier: Modifier = Modifier,
+    content: @Composable BoxScope.() -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+                shape = RoundedCornerShape(8.dp)
+            ),
+        content = content
+    )
+}
+
+@Composable
+private fun SwitchAllDaySection(
+    value: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    SettingsRow(
+        icon = MyHealthIcons.Time,
+        iconContentDescription = stringResource(id = R.string.time_icon)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(text = stringResource(id = R.string.feature_create_grocery_list_time_all_day))
+            Switch(checked = value, onCheckedChange = { onCheckedChange(!it) })
+        }
+    }
+    Spacer(modifier = Modifier.height(12.dp))
+}
+
+@Composable
+private fun DateTimeSection() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 40.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = "Friday, 4 Sep")
+        Text(text = "21:55")
+    }
+    Spacer(modifier = Modifier.height(22.dp))
+}
+
+@Composable
+private fun RepeatSection() {
+    SettingsRow(
+        icon = MyHealthIcons.Repeat,
+        iconContentDescription = stringResource(id = R.string.repeat_icon)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(text = stringResource(id = R.string.feature_create_grocery_list_time_does_not_repeat))
+            Spacer(modifier = Modifier.width(16.dp))
+            Icon(
+                imageVector = MyHealthIcons.ExpandMore,
+                contentDescription = stringResource(id = R.string.expand_more_icon)
+            )
+        }
+    }
+}
+
+@Composable
+private fun GroceryListSection(
+    onGroceryList: () -> Unit,
+) {
+    SettingsRow(
+        icon = MyHealthIcons.CheckList,
+        iconContentDescription = stringResource(id = R.string.check_list_icon),
+        modifier = Modifier
+            .clickable(onClick = onGroceryList)
+            .padding(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = stringResource(id = R.string.feature_create_grocery_list_check_list)
+            )
+            Icon(
+                imageVector = MyHealthIcons.ExpandMore,
+                contentDescription = stringResource(id = R.string.expand_more_icon)
+            )
+        }
+    }
+}
+
+@Composable
+private fun SettingsRow(
+    modifier: Modifier = Modifier,
+    icon: ImageVector,
+    iconContentDescription: String? = "",
+    content: @Composable RowScope.() -> Unit,
+) {
+    Row (
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = iconContentDescription
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+
+        content()
+    }
+}
+
+@Preview
+@Composable
+private fun GroceryListFormPreview() {
+    MyHealthTheme {
+        GroceryListForm(
+            title = stringResource(id = R.string.feature_create_grocery_list_title),
+            checkedAllDay = false,
+            onTitleChanged = {},
+            onGroceryListClick = {},
+            onSwitchAllDay = {},
+            onRepeatTypeChanged = {},
+            onSave = {},
+        )
+    }
+}
