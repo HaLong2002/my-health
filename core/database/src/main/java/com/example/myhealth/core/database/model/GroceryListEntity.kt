@@ -8,12 +8,17 @@ import com.example.myhealth.core.model.GroceryList
     tableName = "groceryList",
 )
 data class GroceryListEntity(
-    @PrimaryKey
-    val groceryListId: Long,
+    @PrimaryKey(autoGenerate = true)
+    val groceryListId: Long = 0,
     val name: String,
 )
 
 fun GroceryListEntity.asExternalModel() = GroceryList(
     id = groceryListId,
+    name = name,
+)
+
+fun GroceryList.asEntity() = GroceryListEntity(
+    groceryListId = id,
     name = name,
 )
