@@ -5,6 +5,7 @@
     <string name="add_icon">Add</string>
     <string name="back_icon">Back</string>
     <string name="check_icon">Check</string>
+    <string name="info_icon">Detailed information</string>
     <string name="text_field_clear_icon_description">Clear text</string>
     <string name="text_field_write_icon_description">Write text</string>
     <string name="time_icon">Time</string>

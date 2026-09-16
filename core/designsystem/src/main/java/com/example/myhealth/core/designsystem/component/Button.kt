@@ -9,6 +9,9 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -73,6 +76,29 @@ fun MHElevatedButton(
 }
 
 @Composable
+fun MHFilledIconButton(
+    onClick: () -> Unit,
+    icon: ImageVector,
+    iconDescription: String,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    colors: IconButtonColors = IconButtonDefaults.filledIconButtonColors(),
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        colors = colors,
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = iconDescription,
+        )
+    }
+}
+
+
+@Composable
 fun MHIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -106,7 +132,7 @@ fun MHButtonPreview() {
 
 @Preview
 @Composable
-fun MHIconButtonPreview() {
+fun MHSmallIconButtonPreview() {
     MyHealthTheme {
         MHIconButton(
             onClick = {},
@@ -134,6 +160,18 @@ fun MHElevatedButtonPreview() {
         MHElevatedButton(
             onClick = {},
             content = { Text(text = "Test button") }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun MHFilledIconButtonPreview() {
+    MyHealthTheme {
+        MHFilledIconButton(
+            onClick = {},
+            icon = MyHealthIcons.Add,
+            iconDescription = "",
         )
     }
 }

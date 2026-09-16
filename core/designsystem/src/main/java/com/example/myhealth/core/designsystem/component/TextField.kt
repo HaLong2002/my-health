@@ -17,14 +17,14 @@ import androidx.compose.ui.text.TextStyle
 fun MHTextField(
     modifier: Modifier = Modifier,
     leadingIcon: ImageVector? = null,
-    leadingIconContentDescription: String? = "",
-    trailingIcon: ImageVector,
-    trailingIconContentDescription: String,
+    leadingIconContentDescription: String = "",
+    trailingIcon: ImageVector? = null,
+    trailingIconContentDescription: String = "",
     value: String,
-    hint: String,
+    hint: String = "",
     singleLine: Boolean = true,
     textStyle: TextStyle = LocalTextStyle.current,
-    onTrailingIconClick: () -> Unit,
+    onTrailingIconClick: () -> Unit = {},
     onValueChange: (String) -> Unit,
     ) {
     TextField(
@@ -37,7 +37,7 @@ fun MHTextField(
                 )
             }
         },
-        trailingIcon = if (value.isNotEmpty()) {
+        trailingIcon = if (trailingIcon != null && value.isNotEmpty()) {
             {
                 IconButton(
                     onClick = onTrailingIconClick

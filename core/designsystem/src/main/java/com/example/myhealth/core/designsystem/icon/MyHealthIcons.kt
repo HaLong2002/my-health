@@ -17,6 +17,7 @@ import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.FilterList
 import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material.icons.rounded.Repeat
@@ -45,4 +46,5 @@ object MyHealthIcons {
     val Search = Icons.Rounded.Search
     val Filter = Icons.Rounded.FilterList
     val MoreVert = Icons.Default.MoreVert
+    val Info = Icons.Rounded.Info
 }
