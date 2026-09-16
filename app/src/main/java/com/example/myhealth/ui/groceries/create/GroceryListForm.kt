@@ -27,19 +27,25 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.component.MHButton
 import com.example.myhealth.core.designsystem.component.MHTextField
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 import com.example.myhealth.core.model.RepeatType
+import com.example.myhealth.ui.groceries.util.toDisplayDate
+import com.example.myhealth.ui.groceries.util.toDisplayTime
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 fun GroceryListForm(
     modifier: Modifier = Modifier,
     title: String,
     checkedAllDay: Boolean,
+    reminderDate: LocalDate,
+    reminderTime: LocalTime?,
+    repeatType: RepeatType,
     onTitleChanged: (String) -> Unit,
     onSwitchAllDay: (Boolean) -> Unit,
     onRepeatTypeChanged: (RepeatType) -> Unit,
@@ -60,7 +66,6 @@ fun GroceryListForm(
                 trailingIconContentDescription = stringResource(id = R.string.text_field_clear_icon_description),
                 value = title,
                 hint = stringResource(id = R.string.feature_create_grocery_list_hint_title),
-                textStyle = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
                 onTrailingIconClick = { onTitleChanged("") },
                 onValueChange = onTitleChanged
             )
@@ -76,7 +81,10 @@ fun GroceryListForm(
                     value = checkedAllDay,
                     onCheckedChange = onSwitchAllDay
                 )
-                DateTimeSection()
+                DateTimeSection(
+                    date = reminderDate,
+                    time = reminderTime,
+                )
                 RepeatSection()
             }
         }
@@ -135,15 +143,20 @@ private fun SwitchAllDaySection(
 }
 
 @Composable
-private fun DateTimeSection() {
+private fun DateTimeSection(
+    date: LocalDate,
+    time: LocalTime?,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 40.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = "Friday, 4 Sep")
-        Text(text = "21:55")
+        Text(text = date.toDisplayDate())
+        if (time != null) {
+            Text(text = time.toDisplayTime())
+        }
     }
     Spacer(modifier = Modifier.height(22.dp))
 }
@@ -228,6 +241,9 @@ private fun GroceryListFormPreview() {
             onSwitchAllDay = {},
             onRepeatTypeChanged = {},
             onSave = {},
+            reminderDate = LocalDate.now(),
+            reminderTime = LocalTime.now(),
+            repeatType = RepeatType.DOES_NOT_REPEAT,
         )
     }
 }

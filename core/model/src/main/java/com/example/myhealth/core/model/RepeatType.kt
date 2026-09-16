@@ -9,4 +9,5 @@ enum class RepeatType(
     EVERY_MONTH(4),
     EVERY_YEAR(5),
     CUSTOM(6),
+    NONE(7),
 }

@@ -10,8 +10,7 @@ import com.example.myhealth.ui.groceries.list.GroceryListsScreen
 fun EntryProviderScope<NavKey>.groceriesEntry(navigator: Navigator) {
     entry<GroceryListsNavKey> {
         GroceryListsScreen(
-            onCreateGroceryListClick = { navigator.navigate(CreateGroceryListNavKey) },
-            onGroceryListClick = { navigator.navigate(GroceryListDetailNavKey) }
+            onDetailsGroceryList = { navigator.navigate(CreateGroceryListNavKey) }
         )
     }
 

@@ -13,6 +13,8 @@ import com.example.myhealth.core.designsystem.component.MyHealthTopAppBar
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 import com.example.myhealth.core.model.RepeatType
+import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 fun CreateGroceryListScreen(
@@ -21,20 +23,23 @@ fun CreateGroceryListScreen(
     onNavigateToGroceryListDetail: () -> Unit,
     viewModel: CreateGroceryListViewModel = hiltViewModel(),
 ) {
-    CreateGroceryListScreen(
-        modifier = modifier,
-        title = viewModel.formState.title,
-        checkedAllDay = !viewModel.formState.hasTimeReminder,
-        onBackClick = onBack,
-        onSaveClick = {
-            viewModel.onCreateGroceryList()
-            onBack()
-        },
-        onTitleChanged = viewModel::updateTitle,
-        onSwitchAllDay = viewModel::updateHasTimeReminder,
-        onRepeatTypeChanged = viewModel::updateRepeatType,
-        onNavigateToGroceryListDetail = onNavigateToGroceryListDetail,
-    )
+//    CreateGroceryListScreen(
+//        modifier = modifier,
+//        title = viewModel.formState.title,
+//        checkedAllDay = !viewModel.formState.hasTimeReminder,
+//        reminderDate = viewModel.formState.reminderDate,
+//        reminderTime = viewModel.formState.reminderTime,
+//        repeatType = viewModel.formState.repeatType,
+//        onBackClick = onBack,
+//        onSaveClick = {
+//            viewModel.onCreateGroceryList()
+//            onBack()
+//        },
+//        onTitleChanged = viewModel::updateTitle,
+//        onSwitchAllDay = viewModel::updateHasTimeReminder,
+//        onRepeatTypeChanged = viewModel::updateRepeatType,
+//        onNavigateToGroceryListDetail = onNavigateToGroceryListDetail,
+//    )
 }
 
 @Composable
@@ -42,6 +47,9 @@ fun CreateGroceryListScreen(
     modifier: Modifier = Modifier,
     title: String,
     checkedAllDay: Boolean,
+    reminderDate: LocalDate,
+    reminderTime: LocalTime?,
+    repeatType: RepeatType,
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit,
     onTitleChanged: (String) -> Unit,
@@ -67,6 +75,9 @@ fun CreateGroceryListScreen(
             GroceryListForm(
                 title = title,
                 checkedAllDay = checkedAllDay,
+                reminderDate = reminderDate,
+                reminderTime = reminderTime,
+                repeatType = repeatType,
                 onTitleChanged = onTitleChanged,
                 onGroceryListClick = onNavigateToGroceryListDetail,
                 onSwitchAllDay = onSwitchAllDay,
@@ -89,7 +100,10 @@ fun CreateGroceryListPreview() {
             checkedAllDay = true,
             onTitleChanged = {},
             onSwitchAllDay = {},
-            onRepeatTypeChanged = {}
+            onRepeatTypeChanged = {},
+            reminderDate = LocalDate.now(),
+            reminderTime = LocalTime.now(),
+            repeatType = RepeatType.DOES_NOT_REPEAT
         )
     }
 }
