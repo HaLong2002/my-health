@@ -16,15 +16,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -59,8 +55,9 @@ fun GroceryListsScreen(
         groceryListsUiState = groceryListsUiState,
         newGroceryList = newGroceryList,
         modifier = modifier,
-        onCreateGroceryList = createGroceryListViewModel::addGroceryList,
+        addGroceryList = createGroceryListViewModel::addGroceryList,
         onDetailsGroceryList = onDetailsGroceryList,
+        onCreateGroceryList = createGroceryListViewModel::onCreateGroceryList,
         onNewGroceryListTitleChanged = createGroceryListViewModel::updateTitle,
     )
 }
@@ -70,8 +67,9 @@ fun GroceryListsScreen(
     groceryListsUiState: GroceryListsUiState,
     newGroceryList: NewGroceryListUiState?,
     modifier: Modifier = Modifier,
-    onCreateGroceryList: () -> Unit,
+    addGroceryList: () -> Unit,
     onDetailsGroceryList: () -> Unit,
+    onCreateGroceryList: () -> Unit,
     onNewGroceryListTitleChanged: (String) -> Unit,
 ) {
     Scaffold(
@@ -86,7 +84,7 @@ fun GroceryListsScreen(
         },
         floatingActionButton = {
             MHFilledIconButton(
-                onClick = onCreateGroceryList,
+                onClick = addGroceryList,
                 icon = MyHealthIcons.Add,
                 iconDescription = stringResource(id = R.string.add_icon),
             )
@@ -111,6 +109,7 @@ fun GroceryListsScreen(
                             newGroceryList = newGroceryList,
                             onNewGroceryListTitleChanged = onNewGroceryListTitleChanged,
                             onDetailsGroceryList = onDetailsGroceryList,
+                            onCreateGroceryList = onCreateGroceryList,
                         )
                     } else {
                         EmptyState()
@@ -167,25 +166,15 @@ private fun GroceryLists(
     newGroceryList: NewGroceryListUiState?,
     onNewGroceryListTitleChanged: (String) -> Unit,
     onDetailsGroceryList: () -> Unit,
+    onCreateGroceryList: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val focusRequest = remember { FocusRequester() }
-    val keyboardController = LocalSoftwareKeyboardController.current
-
-    LaunchedEffect(newGroceryList) {
-        if(newGroceryList != null) {
-            focusRequest.requestFocus()
-            keyboardController?.show()
-        }
-    }
-
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
     ) {
         groceryListRows(
-            focusRequest = focusRequest,
             items = groceryLists,
             onTitleChanged = {},
             onInfoIconClick = onDetailsGroceryList,
@@ -197,7 +186,7 @@ private fun GroceryLists(
             ) {
                 NewGroceryListRow(
                     newGroceryList = newGroceryList,
-                    focusRequest = focusRequest,
+                    onCreateGroceryList = onCreateGroceryList,
                     onTitleChanged = onNewGroceryListTitleChanged,
                     onInfoIconClick = onDetailsGroceryList,
                 )
@@ -211,12 +200,20 @@ private fun GroceryLists(
 private fun GroceryListsScreenPreview() {
     MyHealthTheme {
         GroceryListsScreen(
-            groceryListsUiState = GroceryListsUiState.Loading,
+            groceryListsUiState = GroceryListsUiState.Success(
+                listOf(
+                    GroceryList(
+                        id = 0,
+                        name = "Title 1"
+                    )
+                )
+            ),
             newGroceryList = NewGroceryListUiState(
                 title = "New Grocery List"
             ),
-            onCreateGroceryList = {},
+            addGroceryList = {},
             onDetailsGroceryList = {},
+            onCreateGroceryList = {},
             onNewGroceryListTitleChanged = {}
         )
     }

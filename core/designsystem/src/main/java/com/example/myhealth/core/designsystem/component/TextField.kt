@@ -1,6 +1,7 @@
 package com.example.myhealth.core.designsystem.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -26,6 +27,7 @@ fun MHTextField(
     textStyle: TextStyle = LocalTextStyle.current,
     onTrailingIconClick: () -> Unit = {},
     onValueChange: (String) -> Unit,
+    onKeyboardDone: () -> Unit = {},
     ) {
     TextField(
         modifier = modifier.fillMaxWidth(),
@@ -52,6 +54,9 @@ fun MHTextField(
             null
         },
         onValueChange = onValueChange,
+        keyboardActions = KeyboardActions(
+            onDone = { onKeyboardDone() }
+        ),
         value = value,
         placeholder = {
             Text(text = hint, style = textStyle)
