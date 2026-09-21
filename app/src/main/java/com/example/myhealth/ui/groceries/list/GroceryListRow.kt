@@ -12,10 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myhealth.R
@@ -36,6 +35,7 @@ fun GroceryListRow(
     GroceryListRowContent(
         modifier = modifier,
         title = groceryList.name,
+        autoFocus = false,
         onTitleChanged = onTitleChanged,
         onInfoIconClick = onInfoIconClick,
     )
@@ -49,19 +49,11 @@ fun NewGroceryListRow(
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
 ) {
-    val focusRequest = remember { FocusRequester() }
-    val keyboardController = LocalSoftwareKeyboardController.current
-
-    LaunchedEffect(Unit) {
-        focusRequest.requestFocus()
-        keyboardController?.show()
-    }
-
     GroceryListRowContent(
         modifier = modifier,
-        focusRequest = focusRequest,
         title = newGroceryList.title,
-        onCreateGroceryList = onCreateGroceryList,
+        autoFocus = true,
+        onSaveGroceryList = onCreateGroceryList,
         onTitleChanged = onTitleChanged,
         onInfoIconClick = onInfoIconClick,
     )
@@ -70,41 +62,30 @@ fun NewGroceryListRow(
 @Composable
 private fun GroceryListRowContent(
     modifier: Modifier = Modifier,
-    focusRequest: FocusRequester? = null,
     title: String,
-    onCreateGroceryList: () -> Unit = {},
+    autoFocus: Boolean,
+    onSaveGroceryList: () -> Unit = {},
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
 ) {
-    var isFocused by remember { mutableStateOf(false) }
-
-    val focusManager = LocalFocusManager.current
-    val keyboardController = LocalSoftwareKeyboardController.current
+    var focusState by remember { mutableStateOf(false) }
 
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        MHTextField(
-            modifier = Modifier
-                .weight(1f)
-                .then(
-                    focusRequest?.let {
-                        Modifier.focusRequester(it)
-                    } ?: Modifier
-                )
-                .onFocusChanged { focusState ->
-                    isFocused = focusState.isFocused
-                },
-            value = title,
-            onValueChange = onTitleChanged,
-            onKeyboardDone = {
-                focusManager.clearFocus()
-                keyboardController?.hide()
-                onCreateGroceryList()
-            }
+        GroceryListInputTextField(
+            modifier = Modifier.weight(1f),
+            textFieldValue = title,
+            onTextChanged = onTitleChanged,
+            onTextFieldFocused = { focused ->
+                focusState = focused
+            },
+            requestFocus = autoFocus,
+            onKeyboardDone = onSaveGroceryList,
         )
-        if (isFocused) {
+
+        if (focusState) {
             MHIconButton(
                 modifier = Modifier.padding(end = 8.dp),
                 icon = MyHealthIcons.Info,
@@ -115,12 +96,45 @@ private fun GroceryListRowContent(
     }
 }
 
+@Composable
+private fun GroceryListInputTextField(
+    modifier: Modifier = Modifier,
+    textFieldValue: String,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    requestFocus: Boolean,
+    onTextChanged: (String) -> Unit,
+    onKeyboardDone: () -> Unit,
+    onTextFieldFocused: (Boolean) -> Unit,
+) {
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(Unit) {
+        if (requestFocus) {
+            focusRequester.requestFocus()
+        }
+    }
+
+    MHTextField(
+        modifier = modifier.focusRequester(focusRequester),
+        value = textFieldValue,
+        keyboardType = keyboardType,
+        onTextChanged = onTextChanged,
+        onKeyboardDone = {
+            focusManager.clearFocus()
+            onKeyboardDone()
+        },
+        onTextFieldFocused = onTextFieldFocused,
+    )
+}
+
 @Preview
 @Composable
 private fun GroceryListRowContentPreview() {
     MyHealthTheme {
         GroceryListRowContent(
             title = "Title 1",
+            autoFocus = true,
             onTitleChanged = {},
             onInfoIconClick = {},
         )

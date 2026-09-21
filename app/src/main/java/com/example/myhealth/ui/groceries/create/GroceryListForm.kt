@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myhealth.R
@@ -61,13 +62,14 @@ fun GroceryListForm(
         CardItem {
             MHTextField(
                 leadingIcon = MyHealthIcons.Edit,
-                leadingIconContentDescription = stringResource(R.string.text_field_write_icon_description),
+                leadingIconContentDescription = R.string.text_field_write_icon_description,
                 trailingIcon = MyHealthIcons.Close,
-                trailingIconContentDescription = stringResource(id = R.string.text_field_clear_icon_description),
+                trailingIconContentDescription = R.string.text_field_clear_icon_description,
                 value = title,
                 hint = stringResource(id = R.string.feature_create_grocery_list_hint_title),
                 onTrailingIconClick = { onTitleChanged("") },
-                onValueChange = onTitleChanged
+                onTextChanged = onTitleChanged,
+                keyboardType = KeyboardType.Text,
             )
         }
 
