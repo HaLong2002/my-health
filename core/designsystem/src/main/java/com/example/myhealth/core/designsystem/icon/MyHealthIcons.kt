@@ -10,6 +10,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ChecklistRtl
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.CollectionsBookmark
@@ -30,6 +31,7 @@ object MyHealthIcons {
     val Remove = Icons.Rounded.Remove
     val Close = Icons.Rounded.Close
     val Edit = Icons.Rounded.Edit
+    val Check = Icons.Rounded.Check
     val Time = Icons.Rounded.AccessTime
     val Repeat = Icons.Rounded.Repeat
     val ArrowForward = Icons.AutoMirrored.Rounded.KeyboardArrowRight
