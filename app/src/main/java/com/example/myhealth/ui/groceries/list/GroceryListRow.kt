@@ -31,6 +31,7 @@ fun GroceryListRow(
     groceryList: GroceryList,
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
+    onTextFieldFocused: (FocusedGroceryField) -> Unit,
 ) {
     GroceryListRowContent(
         modifier = modifier,
@@ -38,6 +39,13 @@ fun GroceryListRow(
         autoFocus = false,
         onTitleChanged = onTitleChanged,
         onInfoIconClick = onInfoIconClick,
+        onTextFieldFocused = { focused ->
+            if (focused) {
+                onTextFieldFocused(FocusedGroceryField.GroceryList(groceryList.id))
+            } else {
+                onTextFieldFocused(FocusedGroceryField.None)
+            }
+        },
     )
 }
 
@@ -48,6 +56,7 @@ fun NewGroceryListRow(
     onCreateGroceryList: () -> Unit,
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
+    onTextFieldFocused: (FocusedGroceryField) -> Unit,
 ) {
     GroceryListRowContent(
         modifier = modifier,
@@ -56,6 +65,13 @@ fun NewGroceryListRow(
         onSaveGroceryList = onCreateGroceryList,
         onTitleChanged = onTitleChanged,
         onInfoIconClick = onInfoIconClick,
+        onTextFieldFocused = { focused ->
+            if (focused) {
+                onTextFieldFocused(FocusedGroceryField.NewGroceryList)
+            } else {
+                onTextFieldFocused(FocusedGroceryField.None)
+            }
+        },
     )
 }
 
@@ -67,6 +83,7 @@ private fun GroceryListRowContent(
     onSaveGroceryList: () -> Unit = {},
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
+    onTextFieldFocused: (Boolean) -> Unit,
 ) {
     var focusState by remember { mutableStateOf(false) }
 
@@ -80,6 +97,7 @@ private fun GroceryListRowContent(
             onTextChanged = onTitleChanged,
             onTextFieldFocused = { focused ->
                 focusState = focused
+                onTextFieldFocused(focused)
             },
             requestFocus = autoFocus,
             onKeyboardDone = onSaveGroceryList,
@@ -87,7 +105,7 @@ private fun GroceryListRowContent(
 
         if (focusState) {
             MHIconButton(
-                modifier = Modifier.padding(end = 8.dp),
+                modifier = Modifier.padding(end = 16.dp),
                 icon = MyHealthIcons.Info,
                 iconContentDescription = stringResource(id = R.string.info_icon),
                 onClick = onInfoIconClick,
@@ -137,6 +155,7 @@ private fun GroceryListRowContentPreview() {
             autoFocus = true,
             onTitleChanged = {},
             onInfoIconClick = {},
+            onTextFieldFocused = {},
         )
     }
 }

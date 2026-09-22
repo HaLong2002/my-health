@@ -1,5 +1,6 @@
 package com.example.myhealth.core.designsystem.component
 
+//noinspection SuspiciousImport
 import android.R
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.RowScope
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.myhealth.core.designsystem.R as designSystemR
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 
@@ -120,9 +122,8 @@ fun MyHealthMediumTopAppBar(
 fun MyHealthFormTopAppBar(
     modifier: Modifier = Modifier,
     @StringRes titleRes: Int,
-    navigationIcon: ImageVector,
-    navigationIconContentDescription: String,
-    @StringRes actionText: Int,
+    navigationIconShown: Boolean = true,
+    actionIconShown: Boolean = true,
     onNavigationClick: () -> Unit = {},
     onActionClick: () -> Unit = {},
 ) {
@@ -131,32 +132,36 @@ fun MyHealthFormTopAppBar(
         title = {
             Text(
                 text = stringResource(id = titleRes),
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.headlineLarge
             )
         },
         navigationIcon = {
-            IconButton(
-                onClick = onNavigationClick
-            ) {
-                Icon(
-                    imageVector = navigationIcon,
-                    contentDescription = navigationIconContentDescription,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                )
+            if (navigationIconShown) {
+                IconButton(
+                    onClick = onNavigationClick
+                ) {
+                    Icon(
+                        imageVector = MyHealthIcons.ArrowBack,
+                        contentDescription = stringResource(id = designSystemR.string.back),
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
             }
         },
         actions = {
-            MHElevatedButton(
-                onClick = onActionClick,
-                colors = ButtonDefaults.textButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                ),
-            ) {
-                Text(
-                    text = stringResource(id = actionText),
-                    fontWeight = FontWeight.Bold,
-                )
+            if (actionIconShown) {
+                MHElevatedButton(
+                    onClick = onActionClick,
+                    colors = ButtonDefaults.textButtonColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    ),
+                ) {
+                    Icon(
+                        imageVector = MyHealthIcons.Check,
+                        contentDescription = stringResource(id = designSystemR.string.save),
+                    )
+                }
             }
         },
     )
@@ -216,9 +221,6 @@ private fun FormTopAppBarPreview() {
     MyHealthTheme {
         MyHealthFormTopAppBar(
             titleRes = R.string.untitled,
-            navigationIcon = MyHealthIcons.ArrowBack,
-            navigationIconContentDescription = "Navigation icon",
-            actionText = R.string.ok,
         )
     }
 }

@@ -9,16 +9,18 @@ fun LazyListScope.groceryListRows(
     items: List<GroceryList>,
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
+    onTextFieldFocused: (FocusedGroceryField) -> Unit,
     itemModifier: Modifier = Modifier,
 ) = items(
     items = items,
     key = { it.id },
     itemContent = { groceryList ->
         GroceryListRow(
+            modifier = itemModifier,
             groceryList = groceryList,
             onTitleChanged = onTitleChanged,
-            modifier = itemModifier,
             onInfoIconClick = onInfoIconClick,
+            onTextFieldFocused = onTextFieldFocused,
         )
     }
 )

@@ -1,9 +1,11 @@
 package com.example.myhealth.ui.groceries.list
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,14 +18,17 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +39,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.component.MHFilledIconButton
-import com.example.myhealth.core.designsystem.component.MyHealthTopAppBar
+import com.example.myhealth.core.designsystem.component.MyHealthFormTopAppBar
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.LocalTintTheme
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
@@ -75,14 +80,30 @@ fun GroceryListsScreen(
     onCreateGroceryList: () -> Unit,
     onNewGroceryListTitleChanged: (String) -> Unit,
 ) {
+    var focusedField by remember {
+        mutableStateOf<FocusedGroceryField>(
+            FocusedGroceryField.None
+        )
+    }
+    val focusManager = LocalFocusManager.current
+
+    BackHandler(enabled = focusedField != FocusedGroceryField.None) {
+        focusManager.clearFocus()
+        onCreateGroceryList()
+    }
+
     Scaffold(
         modifier = modifier,
         topBar = {
-            MyHealthTopAppBar(
+            MyHealthFormTopAppBar(
                 titleRes = R.string.feature_groceries_title,
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
-                ),
+                navigationIconShown = false,
+                actionIconShown = focusedField != FocusedGroceryField.None,
+                onActionClick = {
+                    if (focusedField == FocusedGroceryField.NewGroceryList) {
+                        onCreateGroceryList()
+                    }
+                }
             )
         },
         floatingActionButton = {
@@ -113,6 +134,9 @@ fun GroceryListsScreen(
                             onNewGroceryListTitleChanged = onNewGroceryListTitleChanged,
                             onDetailsGroceryList = onDetailsGroceryList,
                             onCreateGroceryList = onCreateGroceryList,
+                            onTextFieldFocused = { focusedGroceryField ->
+                                focusedField = focusedGroceryField
+                            }
                         )
                     } else {
                         EmptyState()
@@ -163,6 +187,7 @@ private fun EmptyState(modifier: Modifier = Modifier) {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun GroceryLists(
     groceryLists: List<GroceryList>,
@@ -170,6 +195,7 @@ private fun GroceryLists(
     onNewGroceryListTitleChanged: (String) -> Unit,
     onDetailsGroceryList: () -> Unit,
     onCreateGroceryList: () -> Unit,
+    onTextFieldFocused: (FocusedGroceryField) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
@@ -183,14 +209,14 @@ private fun GroceryLists(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .imePadding()
-            .padding(horizontal = 16.dp),
+            .imePadding(),
         state = listState,
     ) {
         groceryListRows(
             items = groceryLists,
             onTitleChanged = {},
             onInfoIconClick = onDetailsGroceryList,
+            onTextFieldFocused = onTextFieldFocused
         )
 
         if (newGroceryList != null) {
@@ -202,10 +228,17 @@ private fun GroceryLists(
                     onCreateGroceryList = onCreateGroceryList,
                     onTitleChanged = onNewGroceryListTitleChanged,
                     onInfoIconClick = onDetailsGroceryList,
+                    onTextFieldFocused = onTextFieldFocused
                 )
             }
         }
     }
+}
+
+sealed interface FocusedGroceryField {
+    data object None: FocusedGroceryField
+    data class GroceryList(val id: Long): FocusedGroceryField
+    data object NewGroceryList: FocusedGroceryField
 }
 
 @Preview
