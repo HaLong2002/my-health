@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -28,7 +27,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.component.MyHealthCheckbox
-import com.example.myhealth.core.designsystem.component.MyHealthImage
 import com.example.myhealth.core.designsystem.component.MyHealthMediumTopAppBar
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
@@ -117,16 +115,9 @@ private fun GroceryItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 12.dp),
+            .padding(start = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        MyHealthImage(
-            imageRes = R.drawable.cupcake,
-            modifier = Modifier
-                .padding(end = 16.dp)
-                .size(35.dp)
-        )
-
         Text(
             text = name,
             style = MaterialTheme.typography.bodyLarge,
