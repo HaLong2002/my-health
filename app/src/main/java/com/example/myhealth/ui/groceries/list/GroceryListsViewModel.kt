@@ -8,15 +8,19 @@ import com.example.myhealth.core.data.repository.GroceriesRepository
 import com.example.myhealth.core.model.GroceryList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class GroceryListsViewModel @Inject constructor(
-    groceriesRepository: GroceriesRepository,
+    private val groceriesRepository: GroceriesRepository,
 ) : ViewModel() {
     val groceryListsUiState: StateFlow<GroceryListsUiState> = groceryListsUiState(
         groceriesRepository = groceriesRepository,
@@ -25,6 +29,34 @@ class GroceryListsViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = GroceryListsUiState.Loading
     )
+
+    private val _editingGroceryList = MutableStateFlow<GroceryList?>(null)
+    val editingGroceryList = _editingGroceryList.asStateFlow()
+
+    fun onGroceryListFocus(groceryList: GroceryList) {
+        _editingGroceryList.value = groceryList
+    }
+
+    fun onGroceryListTitleChanged(title: String) {
+        _editingGroceryList.update { groceryList ->
+            groceryList?.copy(name = title)
+        }
+    }
+
+    fun onUpdateGroceryList() {
+        val editingGroceryList = _editingGroceryList.value ?: return
+
+        if (editingGroceryList.name.isBlank()) {
+            return
+        }
+
+        viewModelScope.launch {
+            groceriesRepository.updateGroceryList(
+                groceryList = editingGroceryList
+            )
+            _editingGroceryList.value = null
+        }
+    }
 }
 
 private fun groceryListsUiState(
