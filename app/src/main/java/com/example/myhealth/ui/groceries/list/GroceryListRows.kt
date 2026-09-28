@@ -7,20 +7,30 @@ import com.example.myhealth.core.model.GroceryList
 
 fun LazyListScope.groceryListRows(
     items: List<GroceryList>,
+    editingGroceryList: GroceryList?,
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
     onTextFieldFocused: (FocusedGroceryField) -> Unit,
+    onUpdateGroceryList: () -> Unit,
     itemModifier: Modifier = Modifier,
 ) = items(
     items = items,
     key = { it.id },
     itemContent = { groceryList ->
+        val displayedGroceryList =
+            if (editingGroceryList?.id == groceryList.id) {
+                editingGroceryList
+            } else {
+                groceryList
+            }
+
         GroceryListRow(
             modifier = itemModifier,
-            groceryList = groceryList,
+            groceryList = displayedGroceryList,
             onTitleChanged = onTitleChanged,
             onInfoIconClick = onInfoIconClick,
             onTextFieldFocused = onTextFieldFocused,
+            onUpdateGroceryList = onUpdateGroceryList,
         )
     }
 )

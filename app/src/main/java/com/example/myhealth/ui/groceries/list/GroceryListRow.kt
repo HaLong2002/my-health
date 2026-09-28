@@ -32,16 +32,18 @@ fun GroceryListRow(
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
     onTextFieldFocused: (FocusedGroceryField) -> Unit,
+    onUpdateGroceryList: () -> Unit,
 ) {
     GroceryListRowContent(
         modifier = modifier,
         title = groceryList.name,
         autoFocus = false,
+        onSaveGroceryList = onUpdateGroceryList,
         onTitleChanged = onTitleChanged,
         onInfoIconClick = onInfoIconClick,
         onTextFieldFocused = { focused ->
             if (focused) {
-                onTextFieldFocused(FocusedGroceryField.GroceryList(groceryList.id))
+                onTextFieldFocused(FocusedGroceryField.ExistingGroceryList(groceryList))
             } else {
                 onTextFieldFocused(FocusedGroceryField.None)
             }

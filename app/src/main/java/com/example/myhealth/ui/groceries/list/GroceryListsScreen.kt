@@ -58,15 +58,21 @@ fun GroceryListsScreen(
         viewModel.groceryListsUiState.collectAsStateWithLifecycle()
     val newGroceryList: NewGroceryListUiState? by
         createGroceryListViewModel.newGroceryList.collectAsStateWithLifecycle()
+    val editingGroceryList: GroceryList? by
+        viewModel.editingGroceryList.collectAsStateWithLifecycle()
 
     GroceryListsScreen(
         groceryListsUiState = groceryListsUiState,
         newGroceryList = newGroceryList,
+        editingGroceryList = editingGroceryList,
         modifier = modifier,
         addGroceryList = createGroceryListViewModel::addGroceryList,
         onDetailsGroceryList = onDetailsGroceryList,
+        onUpdateGroceryList =  viewModel::onUpdateGroceryList,
         onCreateGroceryList = createGroceryListViewModel::onCreateGroceryList,
         onNewGroceryListTitleChanged = createGroceryListViewModel::updateTitle,
+        onGroceryListTitleChanged = viewModel::onGroceryListTitleChanged,
+        onGroceryListFocus = viewModel::onGroceryListFocus,
     )
 }
 
@@ -74,22 +80,39 @@ fun GroceryListsScreen(
 fun GroceryListsScreen(
     groceryListsUiState: GroceryListsUiState,
     newGroceryList: NewGroceryListUiState?,
+    editingGroceryList: GroceryList?,
     modifier: Modifier = Modifier,
     addGroceryList: () -> Unit,
     onDetailsGroceryList: () -> Unit,
+    onUpdateGroceryList: () -> Unit,
     onCreateGroceryList: () -> Unit,
     onNewGroceryListTitleChanged: (String) -> Unit,
+    onGroceryListTitleChanged: (String) -> Unit,
+    onGroceryListFocus: (GroceryList) -> Unit,
 ) {
     var focusedField by remember {
         mutableStateOf<FocusedGroceryField>(
             FocusedGroceryField.None
         )
     }
+
     val focusManager = LocalFocusManager.current
 
-    BackHandler(enabled = focusedField != FocusedGroceryField.None) {
+    val saveGroceryList = {
+        when (focusedField) {
+            FocusedGroceryField.NewGroceryList -> {
+                onCreateGroceryList()
+            }
+            is FocusedGroceryField.ExistingGroceryList -> {
+                onUpdateGroceryList()
+            }
+            FocusedGroceryField.None -> Unit
+        }
         focusManager.clearFocus()
-        onCreateGroceryList()
+    }
+
+    BackHandler(enabled = focusedField != FocusedGroceryField.None) {
+        saveGroceryList()
     }
 
     Scaffold(
@@ -99,11 +122,7 @@ fun GroceryListsScreen(
                 titleRes = R.string.feature_groceries_title,
                 navigationIconShown = false,
                 actionIconShown = focusedField != FocusedGroceryField.None,
-                onActionClick = {
-                    if (focusedField == FocusedGroceryField.NewGroceryList) {
-                        onCreateGroceryList()
-                    }
-                }
+                onActionClick = saveGroceryList
             )
         },
         floatingActionButton = {
@@ -131,11 +150,17 @@ fun GroceryListsScreen(
                         GroceryLists(
                             groceryLists = groceryListsUiState.groceryLists,
                             newGroceryList = newGroceryList,
+                            editingGroceryList = editingGroceryList,
                             onNewGroceryListTitleChanged = onNewGroceryListTitleChanged,
+                            onGroceryListTitleChanged = onGroceryListTitleChanged,
                             onDetailsGroceryList = onDetailsGroceryList,
                             onCreateGroceryList = onCreateGroceryList,
+                            onUpdateGroceryList = onUpdateGroceryList,
                             onTextFieldFocused = { focusedGroceryField ->
                                 focusedField = focusedGroceryField
+                                if (focusedGroceryField is FocusedGroceryField.ExistingGroceryList) {
+                                    onGroceryListFocus(focusedGroceryField.groceryList)
+                                }
                             }
                         )
                     } else {
@@ -192,9 +217,12 @@ private fun EmptyState(modifier: Modifier = Modifier) {
 private fun GroceryLists(
     groceryLists: List<GroceryList>,
     newGroceryList: NewGroceryListUiState?,
+    editingGroceryList: GroceryList?,
     onNewGroceryListTitleChanged: (String) -> Unit,
+    onGroceryListTitleChanged: (String) -> Unit,
     onDetailsGroceryList: () -> Unit,
     onCreateGroceryList: () -> Unit,
+    onUpdateGroceryList: () -> Unit,
     onTextFieldFocused: (FocusedGroceryField) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -214,9 +242,11 @@ private fun GroceryLists(
     ) {
         groceryListRows(
             items = groceryLists,
-            onTitleChanged = {},
+            editingGroceryList = editingGroceryList,
+            onTitleChanged = onGroceryListTitleChanged,
             onInfoIconClick = onDetailsGroceryList,
-            onTextFieldFocused = onTextFieldFocused
+            onTextFieldFocused = onTextFieldFocused,
+            onUpdateGroceryList = onUpdateGroceryList
         )
 
         if (newGroceryList != null) {
@@ -237,7 +267,7 @@ private fun GroceryLists(
 
 sealed interface FocusedGroceryField {
     data object None: FocusedGroceryField
-    data class GroceryList(val id: Long): FocusedGroceryField
+    data class ExistingGroceryList(val groceryList: GroceryList): FocusedGroceryField
     data object NewGroceryList: FocusedGroceryField
 }
 
@@ -257,10 +287,14 @@ private fun GroceryListsScreenPreview() {
             newGroceryList = NewGroceryListUiState(
                 title = "New Grocery List"
             ),
+            editingGroceryList = null,
             addGroceryList = {},
             onDetailsGroceryList = {},
+            onUpdateGroceryList = {},
             onCreateGroceryList = {},
-            onNewGroceryListTitleChanged = {}
+            onNewGroceryListTitleChanged = {},
+            onGroceryListTitleChanged = {},
+            onGroceryListFocus = {},
         )
     }
 }
