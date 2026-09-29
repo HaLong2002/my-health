@@ -99,15 +99,6 @@ fun GroceryListsScreen(
     val focusManager = LocalFocusManager.current
 
     val saveGroceryList = {
-        when (focusedField) {
-            FocusedGroceryField.NewGroceryList -> {
-                onCreateGroceryList()
-            }
-            is FocusedGroceryField.ExistingGroceryList -> {
-                onUpdateGroceryList()
-            }
-            FocusedGroceryField.None -> Unit
-        }
         focusManager.clearFocus()
     }
 

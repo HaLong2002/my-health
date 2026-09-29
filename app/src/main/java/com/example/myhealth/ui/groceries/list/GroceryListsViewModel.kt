@@ -30,10 +30,12 @@ class GroceryListsViewModel @Inject constructor(
         initialValue = GroceryListsUiState.Loading
     )
 
+    private var originalGroceryList: GroceryList? = null
     private val _editingGroceryList = MutableStateFlow<GroceryList?>(null)
     val editingGroceryList = _editingGroceryList.asStateFlow()
 
     fun onGroceryListFocus(groceryList: GroceryList) {
+        originalGroceryList = groceryList
         _editingGroceryList.value = groceryList
     }
 
@@ -46,14 +48,20 @@ class GroceryListsViewModel @Inject constructor(
     fun onUpdateGroceryList() {
         val editingGroceryList = _editingGroceryList.value ?: return
 
-        if (editingGroceryList.name.isBlank()) {
-            return
-        }
+        if (originalGroceryList != editingGroceryList) {
+            if (editingGroceryList.name.isBlank()) {
+                return
+            }
 
-        viewModelScope.launch {
-            groceriesRepository.updateGroceryList(
-                groceryList = editingGroceryList
-            )
+            viewModelScope.launch {
+                groceriesRepository.updateGroceryList(
+                    groceryList = editingGroceryList
+                )
+                originalGroceryList = null
+                _editingGroceryList.value = null
+            }
+        } else {
+            originalGroceryList = null
             _editingGroceryList.value = null
         }
     }

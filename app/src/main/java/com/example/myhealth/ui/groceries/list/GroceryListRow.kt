@@ -38,7 +38,6 @@ fun GroceryListRow(
         modifier = modifier,
         title = groceryList.name,
         autoFocus = false,
-        onSaveGroceryList = onUpdateGroceryList,
         onTitleChanged = onTitleChanged,
         onInfoIconClick = onInfoIconClick,
         onTextFieldFocused = { focused ->
@@ -46,6 +45,7 @@ fun GroceryListRow(
                 onTextFieldFocused(FocusedGroceryField.ExistingGroceryList(groceryList))
             } else {
                 onTextFieldFocused(FocusedGroceryField.None)
+                onUpdateGroceryList()
             }
         },
     )
@@ -60,18 +60,21 @@ fun NewGroceryListRow(
     onInfoIconClick: () -> Unit,
     onTextFieldFocused: (FocusedGroceryField) -> Unit,
 ) {
+    var hasBeenFocused by remember { mutableStateOf(false) }
+
     GroceryListRowContent(
         modifier = modifier,
         title = newGroceryList.title,
         autoFocus = true,
-        onSaveGroceryList = onCreateGroceryList,
         onTitleChanged = onTitleChanged,
         onInfoIconClick = onInfoIconClick,
         onTextFieldFocused = { focused ->
             if (focused) {
+                hasBeenFocused = true
                 onTextFieldFocused(FocusedGroceryField.NewGroceryList)
-            } else {
+            } else if (hasBeenFocused) {
                 onTextFieldFocused(FocusedGroceryField.None)
+                onCreateGroceryList()
             }
         },
     )
@@ -82,7 +85,6 @@ private fun GroceryListRowContent(
     modifier: Modifier = Modifier,
     title: String,
     autoFocus: Boolean,
-    onSaveGroceryList: () -> Unit = {},
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
     onTextFieldFocused: (Boolean) -> Unit,
@@ -102,7 +104,6 @@ private fun GroceryListRowContent(
                 onTextFieldFocused(focused)
             },
             requestFocus = autoFocus,
-            onKeyboardDone = onSaveGroceryList,
         )
 
         if (focusState) {
@@ -123,7 +124,6 @@ private fun GroceryListInputTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     requestFocus: Boolean,
     onTextChanged: (String) -> Unit,
-    onKeyboardDone: () -> Unit,
     onTextFieldFocused: (Boolean) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -142,7 +142,6 @@ private fun GroceryListInputTextField(
         onTextChanged = onTextChanged,
         onKeyboardDone = {
             focusManager.clearFocus()
-            onKeyboardDone()
         },
         onTextFieldFocused = onTextFieldFocused,
     )
