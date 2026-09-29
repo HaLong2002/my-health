@@ -46,23 +46,40 @@ class GroceryListsViewModel @Inject constructor(
     }
 
     fun onUpdateGroceryList() {
-        val editingGroceryList = _editingGroceryList.value ?: return
+        val editing = _editingGroceryList.value ?: return
+        val original = originalGroceryList ?: return
 
-        if (originalGroceryList != editingGroceryList) {
-            if (editingGroceryList.name.isBlank()) {
-                return
+        when {
+            original == editing -> {
+                clearEditingGroceryList()
             }
 
-            viewModelScope.launch {
-                groceriesRepository.updateGroceryList(
-                    groceryList = editingGroceryList
-                )
-                originalGroceryList = null
-                _editingGroceryList.value = null
+            editing.name.isBlank() -> {
+                onDeleteGroceryList(groceryList = original)
+                clearEditingGroceryList()
             }
-        } else {
-            originalGroceryList = null
-            _editingGroceryList.value = null
+
+            else -> {
+                viewModelScope.launch {
+                    groceriesRepository.updateGroceryList(
+                        groceryList = editing
+                    )
+                    clearEditingGroceryList()
+                }
+            }
+        }
+    }
+
+    private fun clearEditingGroceryList() {
+        originalGroceryList = null
+        _editingGroceryList.value = null
+    }
+
+    fun onDeleteGroceryList(groceryList: GroceryList) {
+        viewModelScope.launch {
+            groceriesRepository.deleteGroceryList(
+                groceryList = groceryList
+            )
         }
     }
 }
