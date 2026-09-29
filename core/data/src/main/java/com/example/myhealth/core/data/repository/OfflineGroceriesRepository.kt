@@ -29,4 +29,10 @@ internal class OfflineGroceriesRepository @Inject constructor(
             groceryListEntity = groceryList.asEntity()
         )
     }
+
+    override suspend fun deleteGroceryList(groceryList: GroceryList) {
+        groceryDao.deleteGroceryList(
+            groceryListEntity = groceryList.asEntity()
+        )
+    }
 }

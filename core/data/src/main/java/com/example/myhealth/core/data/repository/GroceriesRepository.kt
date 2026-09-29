@@ -7,4 +7,5 @@ interface GroceriesRepository {
     fun getGroceryLists(): Flow<List<GroceryList>>
     suspend fun insertGroceryList(groceryList: GroceryList)
     suspend fun updateGroceryList(groceryList: GroceryList)
+    suspend fun deleteGroceryList(groceryList: GroceryList)
 }

@@ -1,6 +1,7 @@
 package com.example.myhealth.core.database.dao
 
 import androidx.room3.Dao
+import androidx.room3.Delete
 import androidx.room3.Insert
 import androidx.room3.Query
 import androidx.room3.Update
@@ -17,4 +18,7 @@ interface GroceryDao {
 
     @Update
     suspend fun updateGroceryList(groceryListEntity: GroceryListEntity)
+
+    @Delete
+    suspend fun deleteGroceryList(groceryListEntity: GroceryListEntity)
 }
