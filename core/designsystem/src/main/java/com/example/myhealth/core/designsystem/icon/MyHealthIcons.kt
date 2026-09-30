@@ -14,6 +14,7 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ChecklistRtl
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.CollectionsBookmark
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.FilterList
@@ -29,6 +30,7 @@ object MyHealthIcons {
     val ArrowBack = Icons.AutoMirrored.Rounded.ArrowBack
     val Add = Icons.Rounded.Add
     val Remove = Icons.Rounded.Remove
+    val Delete = Icons.Rounded.Delete
     val Close = Icons.Rounded.Close
     val Edit = Icons.Rounded.Edit
     val Check = Icons.Rounded.Check

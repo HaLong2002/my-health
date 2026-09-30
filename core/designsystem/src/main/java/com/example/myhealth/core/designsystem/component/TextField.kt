@@ -9,6 +9,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,6 +32,7 @@ fun MHTextField(
     singleLine: Boolean = true,
     textStyle: TextStyle = LocalTextStyle.current,
     keyboardType: KeyboardType,
+    colors: TextFieldColors? = null,
     onTrailingIconClick: () -> Unit = {},
     onTextChanged: (String) -> Unit,
     onKeyboardDone: () -> Unit = {},
@@ -80,7 +82,7 @@ fun MHTextField(
             keyboardType = keyboardType,
         ),
         singleLine = singleLine,
-        colors = TextFieldDefaults.colors(
+        colors = colors ?: TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
