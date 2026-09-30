@@ -70,6 +70,7 @@ fun GroceryListsScreen(
         onDetailsGroceryList = onDetailsGroceryList,
         onUpdateGroceryList =  viewModel::onUpdateGroceryList,
         onCreateGroceryList = createGroceryListViewModel::onCreateGroceryList,
+        onDeleteGroceryList = viewModel::onDeleteGroceryList,
         onNewGroceryListTitleChanged = createGroceryListViewModel::updateTitle,
         onGroceryListTitleChanged = viewModel::onGroceryListTitleChanged,
         onGroceryListFocus = viewModel::onGroceryListFocus,
@@ -86,6 +87,7 @@ fun GroceryListsScreen(
     onDetailsGroceryList: () -> Unit,
     onUpdateGroceryList: () -> Unit,
     onCreateGroceryList: () -> Unit,
+    onDeleteGroceryList: (GroceryList) -> Unit,
     onNewGroceryListTitleChanged: (String) -> Unit,
     onGroceryListTitleChanged: (String) -> Unit,
     onGroceryListFocus: (GroceryList) -> Unit,
@@ -122,7 +124,8 @@ fun GroceryListsScreen(
                 icon = MyHealthIcons.Add,
                 iconDescription = stringResource(id = R.string.add_icon),
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface,
     ) { padding ->
         Box(
             modifier = Modifier
@@ -147,6 +150,7 @@ fun GroceryListsScreen(
                             onDetailsGroceryList = onDetailsGroceryList,
                             onCreateGroceryList = onCreateGroceryList,
                             onUpdateGroceryList = onUpdateGroceryList,
+                            onDeleteGroceryList = onDeleteGroceryList,
                             onTextFieldFocused = { focusedGroceryField ->
                                 focusedField = focusedGroceryField
                                 if (focusedGroceryField is FocusedGroceryField.ExistingGroceryList) {
@@ -158,6 +162,61 @@ fun GroceryListsScreen(
                         EmptyState()
                     }
                 }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun GroceryLists(
+    groceryLists: List<GroceryList>,
+    newGroceryList: NewGroceryListUiState?,
+    editingGroceryList: GroceryList?,
+    onNewGroceryListTitleChanged: (String) -> Unit,
+    onGroceryListTitleChanged: (String) -> Unit,
+    onDetailsGroceryList: () -> Unit,
+    onCreateGroceryList: () -> Unit,
+    onUpdateGroceryList: () -> Unit,
+    onDeleteGroceryList: (GroceryList) -> Unit,
+    onTextFieldFocused: (FocusedGroceryField) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(newGroceryList) {
+        if (newGroceryList != null) {
+            listState.animateScrollToItem(index = groceryLists.size)
+        }
+    }
+
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .imePadding(),
+        state = listState,
+    ) {
+        groceryListRows(
+            items = groceryLists,
+            editingGroceryList = editingGroceryList,
+            onTitleChanged = onGroceryListTitleChanged,
+            onInfoIconClick = onDetailsGroceryList,
+            onTextFieldFocused = onTextFieldFocused,
+            onUpdateGroceryList = onUpdateGroceryList,
+            onDeleteGroceryList = onDeleteGroceryList,
+        )
+
+        if (newGroceryList != null) {
+            item(
+                key = "new_grocery_list"
+            ) {
+                NewGroceryListRow(
+                    newGroceryList = newGroceryList,
+                    onCreateGroceryList = onCreateGroceryList,
+                    onTitleChanged = onNewGroceryListTitleChanged,
+                    onInfoIconClick = onDetailsGroceryList,
+                    onTextFieldFocused = onTextFieldFocused
+                )
             }
         }
     }
@@ -203,59 +262,6 @@ private fun EmptyState(modifier: Modifier = Modifier) {
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-private fun GroceryLists(
-    groceryLists: List<GroceryList>,
-    newGroceryList: NewGroceryListUiState?,
-    editingGroceryList: GroceryList?,
-    onNewGroceryListTitleChanged: (String) -> Unit,
-    onGroceryListTitleChanged: (String) -> Unit,
-    onDetailsGroceryList: () -> Unit,
-    onCreateGroceryList: () -> Unit,
-    onUpdateGroceryList: () -> Unit,
-    onTextFieldFocused: (FocusedGroceryField) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val listState = rememberLazyListState()
-
-    LaunchedEffect(newGroceryList) {
-        if (newGroceryList != null) {
-            listState.animateScrollToItem(index = groceryLists.size)
-        }
-    }
-
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .imePadding(),
-        state = listState,
-    ) {
-        groceryListRows(
-            items = groceryLists,
-            editingGroceryList = editingGroceryList,
-            onTitleChanged = onGroceryListTitleChanged,
-            onInfoIconClick = onDetailsGroceryList,
-            onTextFieldFocused = onTextFieldFocused,
-            onUpdateGroceryList = onUpdateGroceryList
-        )
-
-        if (newGroceryList != null) {
-            item(
-                key = "new_grocery_list"
-            ) {
-                NewGroceryListRow(
-                    newGroceryList = newGroceryList,
-                    onCreateGroceryList = onCreateGroceryList,
-                    onTitleChanged = onNewGroceryListTitleChanged,
-                    onInfoIconClick = onDetailsGroceryList,
-                    onTextFieldFocused = onTextFieldFocused
-                )
-            }
-        }
-    }
-}
-
 sealed interface FocusedGroceryField {
     data object None: FocusedGroceryField
     data class ExistingGroceryList(val groceryList: GroceryList): FocusedGroceryField
@@ -282,6 +288,7 @@ private fun GroceryListsScreenPreview() {
             addGroceryList = {},
             onDetailsGroceryList = {},
             onUpdateGroceryList = {},
+            onDeleteGroceryList = {},
             onCreateGroceryList = {},
             onNewGroceryListTitleChanged = {},
             onGroceryListTitleChanged = {},
