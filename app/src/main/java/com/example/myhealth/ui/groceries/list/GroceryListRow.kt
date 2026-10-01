@@ -1,9 +1,11 @@
 package com.example.myhealth.ui.groceries.list
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -12,7 +14,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -31,6 +35,7 @@ import com.example.myhealth.ui.groceries.create.NewGroceryListUiState
 @Composable
 fun GroceryListRow(
     modifier: Modifier = Modifier,
+    enabled: Boolean,
     groceryList: GroceryList,
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
@@ -39,6 +44,7 @@ fun GroceryListRow(
 ) {
     GroceryListRowContent(
         modifier = modifier,
+        enabled = enabled,
         title = groceryList.name,
         autoFocus = false,
         onTitleChanged = onTitleChanged,
@@ -86,6 +92,7 @@ fun NewGroceryListRow(
 @Composable
 private fun GroceryListRowContent(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     title: String,
     autoFocus: Boolean,
     onTitleChanged: (String) -> Unit,
@@ -94,28 +101,38 @@ private fun GroceryListRowContent(
 ) {
     var focusState by remember { mutableStateOf(false) }
 
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(
+                color = if (enabled)
+                    Color.Transparent
+                else MaterialTheme.colorScheme.surfaceContainer
+            ),
     ) {
-        GroceryListInputTextField(
-            modifier = Modifier.weight(1f),
-            textFieldValue = title,
-            onTextChanged = onTitleChanged,
-            onTextFieldFocused = { focused ->
-                focusState = focused
-                onTextFieldFocused(focused)
-            },
-            requestFocus = autoFocus,
-        )
-
-        if (focusState) {
-            MHIconButton(
-                modifier = Modifier.padding(end = 16.dp),
-                icon = MyHealthIcons.Info,
-                iconContentDescription = stringResource(id = R.string.info_icon),
-                onClick = onInfoIconClick,
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            GroceryListInputTextField(
+                modifier = Modifier.weight(1f),
+                enabled = enabled,
+                textFieldValue = title,
+                onTextChanged = onTitleChanged,
+                onTextFieldFocused = { focused ->
+                    focusState = focused
+                    onTextFieldFocused(focused)
+                },
+                requestFocus = autoFocus,
             )
+
+            if (focusState && enabled) {
+                MHIconButton(
+                    modifier = Modifier.padding(end = 16.dp),
+                    icon = MyHealthIcons.Info,
+                    iconContentDescription = stringResource(id = R.string.info_icon),
+                    onClick = onInfoIconClick,
+                )
+            }
         }
     }
 }
@@ -123,6 +140,7 @@ private fun GroceryListRowContent(
 @Composable
 private fun GroceryListInputTextField(
     modifier: Modifier = Modifier,
+    enabled: Boolean,
     textFieldValue: String,
     keyboardType: KeyboardType = KeyboardType.Text,
     requestFocus: Boolean,
@@ -139,20 +157,19 @@ private fun GroceryListInputTextField(
     }
 
     MHTextField(
-        modifier = modifier.focusRequester(focusRequester),
+        modifier = modifier
+            .focusRequester(focusRequester)
+            .focusProperties {
+                canFocus = enabled
+            },
         value = textFieldValue,
         keyboardType = keyboardType,
+        readOnly = !enabled,
         onTextChanged = onTextChanged,
         onKeyboardDone = {
             focusManager.clearFocus()
         },
         onTextFieldFocused = onTextFieldFocused,
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.surface,
-            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-        ),
     )
 }
 

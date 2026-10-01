@@ -1,5 +1,6 @@
 package com.example.myhealth.core.designsystem.component
 
+import androidx.compose.animation.core.animate
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
@@ -7,9 +8,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -20,26 +21,36 @@ import androidx.compose.ui.unit.IntOffset
 import kotlin.math.roundToInt
 
 @Composable
-fun SwipeDismissItem(
+fun SwipeItem(
     enabled: Boolean = true,
-    onDragItem: (Boolean) -> Unit = {},
-    onDismiss: () -> Unit,
+    isBackgroundRevealed: Boolean = false,
+    onDragStarted: () -> Unit = {},
+    onBackgroundHidden: () -> Unit = {},
+    onDismiss: () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
-    var deleteWidthPx by remember { mutableFloatStateOf(0f) }
-
+    var backgroundWidthPx by remember { mutableFloatStateOf(0f) }
     var offsetX by remember { mutableFloatStateOf(0f) }
-    var isRevealed by remember { mutableStateOf(false) }
 
-    val dismissThreshold = -deleteWidthPx * 4f
+    LaunchedEffect(isBackgroundRevealed) {
+        if (!isBackgroundRevealed && offsetX != 0f) {
+            animate(
+                initialValue = offsetX,
+                targetValue = 0f,
+            ) { value, _ ->
+                offsetX = value
+            }
+            onBackgroundHidden()
+        }
+    }
 
     val draggableState = rememberDraggableState { delta ->
         offsetX = (offsetX + delta).coerceAtMost(0f)
     }
 
     val progress =
-        if (deleteWidthPx > 0f) {
-            (-offsetX / deleteWidthPx).coerceIn(0f, 1f)
+        if (backgroundWidthPx > 0f) {
+            (-offsetX / backgroundWidthPx).coerceIn(0f, 1f)
         } else {
             0f
         }
@@ -49,11 +60,12 @@ fun SwipeDismissItem(
             .fillMaxWidth(),
         contentAlignment = Alignment.CenterEnd,
     ) {
-        SwipeDismissItemBackground(
+        SwipeItemBackground(
             progress = progress,
             onSizeChanged = { width ->
-                deleteWidthPx = width.toFloat()
-            }
+                backgroundWidthPx = width.toFloat()
+            },
+            onDismiss = onDismiss,
         )
 
         Box(
@@ -63,27 +75,13 @@ fun SwipeDismissItem(
                     enabled = enabled,
                     orientation = Orientation.Horizontal,
                     state = draggableState,
+                    onDragStarted = { onDragStarted() },
                     onDragStopped = {
-                        if (!isRevealed) {
-                            if (offsetX <= -deleteWidthPx) {
-                                offsetX = -deleteWidthPx
-                                isRevealed = true
-                            } else {
-                                offsetX = 0f
-                            }
+                        if (offsetX <= -backgroundWidthPx) {
+                            offsetX = -backgroundWidthPx
                         } else {
-                            when {
-                                offsetX <= dismissThreshold -> {
-                                    onDismiss()
-                                }
-                                offsetX > -deleteWidthPx -> {
-                                    offsetX = 0f
-                                    isRevealed = false
-                                }
-                                else -> {
-                                    offsetX = -deleteWidthPx
-                                }
-                            }
+                            offsetX = 0f
+                            onBackgroundHidden()
                         }
                     }
                 ),
@@ -94,9 +92,10 @@ fun SwipeDismissItem(
 }
 
 @Composable
-fun SwipeDismissItemBackground(
+fun SwipeItemBackground(
     progress: Float,
     onSizeChanged: (Int) -> Unit,
+    onDismiss: () -> Unit,
 ) {
     MHDismissButton(
         modifier = Modifier
@@ -107,6 +106,6 @@ fun SwipeDismissItemBackground(
                 scaleX = progress
                 scaleY = progress
             },
-        onClick = {},
+        onClick = onDismiss,
     )
 }
