@@ -33,6 +33,7 @@ fun MHTextField(
     textStyle: TextStyle = LocalTextStyle.current,
     keyboardType: KeyboardType,
     colors: TextFieldColors? = null,
+    readOnly: Boolean = false,
     onTrailingIconClick: () -> Unit = {},
     onTextChanged: (String) -> Unit,
     onKeyboardDone: () -> Unit = {},
@@ -82,6 +83,7 @@ fun MHTextField(
             keyboardType = keyboardType,
         ),
         singleLine = singleLine,
+        readOnly = readOnly,
         colors = colors ?: TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,
