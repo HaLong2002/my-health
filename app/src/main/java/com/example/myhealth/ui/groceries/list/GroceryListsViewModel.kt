@@ -30,9 +30,42 @@ class GroceryListsViewModel @Inject constructor(
         initialValue = GroceryListsUiState.Loading
     )
 
+    private val _newGroceryList = MutableStateFlow<GroceryList?>(null)
+    val newGroceryList = _newGroceryList.asStateFlow()
+    private var pendingCreateGroceryList = false
+
     private var originalGroceryList: GroceryList? = null
     private val _editingGroceryList = MutableStateFlow<GroceryList?>(null)
     val editingGroceryList = _editingGroceryList.asStateFlow()
+    private var pendingUpdateGroceryList = false
+
+    init {
+        viewModelScope.launch {
+            groceryListsUiState.collect { uiState ->
+                if (uiState is GroceryListsUiState.Success) {
+                    if (pendingCreateGroceryList) {
+                        pendingCreateGroceryList = false
+                        _newGroceryList.value = null
+                    }
+
+                    if (pendingUpdateGroceryList) {
+                        pendingUpdateGroceryList = false
+                        clearEditingGroceryList()
+                    }
+                }
+            }
+        }
+    }
+
+    fun addGroceryList() {
+        _newGroceryList.value = GroceryList()
+    }
+
+    fun updateTitle(title: String) {
+        _newGroceryList.update {
+            it?.copy(name = title)
+        }
+    }
 
     fun onGroceryListFocus(groceryList: GroceryList) {
         originalGroceryList = groceryList
@@ -45,26 +78,48 @@ class GroceryListsViewModel @Inject constructor(
         }
     }
 
+    fun onCreateGroceryList() {
+        val newGroceryList = _newGroceryList.value ?: return
+
+        if (newGroceryList.name.isBlank()) {
+            _newGroceryList.value = null
+            return
+        }
+
+        pendingCreateGroceryList = true
+
+        viewModelScope.launch {
+            groceriesRepository.insertGroceryList(
+                groceryList = newGroceryList
+            )
+        }
+    }
+
     fun onUpdateGroceryList() {
         val editing = _editingGroceryList.value ?: return
         val original = originalGroceryList ?: return
 
+        val editingWithTrimmedName = editing.copy(
+            name = editing.name.trim()
+        )
+
         when {
-            original == editing -> {
+            original == editingWithTrimmedName -> {
                 clearEditingGroceryList()
             }
 
-            editing.name.isBlank() -> {
+            editingWithTrimmedName.name.isBlank() -> {
                 onDeleteGroceryList(groceryList = original)
                 clearEditingGroceryList()
             }
 
             else -> {
+                pendingUpdateGroceryList = true
+
                 viewModelScope.launch {
                     groceriesRepository.updateGroceryList(
-                        groceryList = editing
+                        groceryList = editingWithTrimmedName
                     )
-                    clearEditingGroceryList()
                 }
             }
         }
