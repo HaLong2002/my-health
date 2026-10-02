@@ -17,7 +17,7 @@ fun LazyListScope.groceryListRows(
     onRevealedItemIdChanged: (Long) -> Unit,
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
-    onTextFieldFocused: (FocusedGroceryField) -> Unit,
+    onRowFocused: (FocusedGroceryField) -> Unit,
     onUpdateGroceryList: () -> Unit,
     onDeleteGroceryList: (GroceryList) -> Unit,
     itemModifier: Modifier = Modifier,
@@ -50,7 +50,7 @@ fun LazyListScope.groceryListRows(
                     groceryList = displayedGroceryList,
                     onTitleChanged = onTitleChanged,
                     onInfoIconClick = onInfoIconClick,
-                    onTextFieldFocused = onTextFieldFocused,
+                    onTextFieldFocused = onRowFocused,
                     onUpdateGroceryList = onUpdateGroceryList,
                 )
             }

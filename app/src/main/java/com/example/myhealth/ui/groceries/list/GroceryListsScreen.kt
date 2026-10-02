@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,20 +46,17 @@ import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.LocalTintTheme
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 import com.example.myhealth.core.model.GroceryList
-import com.example.myhealth.ui.groceries.create.CreateGroceryListViewModel
-import com.example.myhealth.ui.groceries.create.NewGroceryListUiState
 
 @Composable
 fun GroceryListsScreen(
     modifier: Modifier = Modifier,
     onDetailsGroceryList: () -> Unit,
     viewModel: GroceryListsViewModel = hiltViewModel(),
-    createGroceryListViewModel: CreateGroceryListViewModel = hiltViewModel(),
 ) {
     val groceryListsUiState: GroceryListsUiState by
         viewModel.groceryListsUiState.collectAsStateWithLifecycle()
-    val newGroceryList: NewGroceryListUiState? by
-        createGroceryListViewModel.newGroceryList.collectAsStateWithLifecycle()
+    val newGroceryList: GroceryList? by
+        viewModel.newGroceryList.collectAsStateWithLifecycle()
     val editingGroceryList: GroceryList? by
         viewModel.editingGroceryList.collectAsStateWithLifecycle()
 
@@ -67,12 +65,12 @@ fun GroceryListsScreen(
         newGroceryList = newGroceryList,
         editingGroceryList = editingGroceryList,
         modifier = modifier,
-        addGroceryList = createGroceryListViewModel::addGroceryList,
+        addGroceryList = viewModel::addGroceryList,
         onDetailsGroceryList = onDetailsGroceryList,
         onUpdateGroceryList =  viewModel::onUpdateGroceryList,
-        onCreateGroceryList = createGroceryListViewModel::onCreateGroceryList,
+        onCreateGroceryList = viewModel::onCreateGroceryList,
         onDeleteGroceryList = viewModel::onDeleteGroceryList,
-        onNewGroceryListTitleChanged = createGroceryListViewModel::updateTitle,
+        onNewGroceryListTitleChanged = viewModel::updateTitle,
         onGroceryListTitleChanged = viewModel::onGroceryListTitleChanged,
         onGroceryListFocus = viewModel::onGroceryListFocus,
     )
@@ -81,7 +79,7 @@ fun GroceryListsScreen(
 @Composable
 fun GroceryListsScreen(
     groceryListsUiState: GroceryListsUiState,
-    newGroceryList: NewGroceryListUiState?,
+    newGroceryList: GroceryList?,
     editingGroceryList: GroceryList?,
     modifier: Modifier = Modifier,
     addGroceryList: () -> Unit,
@@ -134,35 +132,61 @@ fun GroceryListsScreen(
                 .padding(padding),
             contentAlignment = Alignment.Center
         ) {
-            when (groceryListsUiState) {
-                GroceryListsUiState.Error -> TODO()
-                GroceryListsUiState.Loading -> CircularProgressIndicator()
-                is GroceryListsUiState.Success -> {
-                    if (
-                        groceryListsUiState.groceryLists.isNotEmpty() ||
-                        newGroceryList != null
-                    ) {
-                        GroceryLists(
-                            groceryLists = groceryListsUiState.groceryLists,
-                            newGroceryList = newGroceryList,
-                            editingGroceryList = editingGroceryList,
-                            onNewGroceryListTitleChanged = onNewGroceryListTitleChanged,
-                            onGroceryListTitleChanged = onGroceryListTitleChanged,
-                            onDetailsGroceryList = onDetailsGroceryList,
-                            onCreateGroceryList = onCreateGroceryList,
-                            onUpdateGroceryList = onUpdateGroceryList,
-                            onDeleteGroceryList = onDeleteGroceryList,
-                            onTextFieldFocused = { focusedGroceryField ->
-                                focusedField = focusedGroceryField
-                                if (focusedGroceryField is FocusedGroceryField.ExistingGroceryList) {
-                                    onGroceryListFocus(focusedGroceryField.groceryList)
-                                }
-                            }
-                        )
-                    } else {
-                        EmptyState()
+            CollectGroceryListsState(
+                groceryListsUiState = groceryListsUiState,
+                newGroceryList = newGroceryList,
+                editingGroceryList = editingGroceryList,
+                onDetailsGroceryList = onDetailsGroceryList,
+                onUpdateGroceryList = onUpdateGroceryList,
+                onCreateGroceryList = onCreateGroceryList,
+                onDeleteGroceryList = onDeleteGroceryList,
+                onNewGroceryListTitleChanged = onNewGroceryListTitleChanged,
+                onGroceryListTitleChanged = onGroceryListTitleChanged,
+                onGroceryListFocused = { focusedGroceryField ->
+                    focusedField = focusedGroceryField
+                    if (focusedGroceryField is FocusedGroceryField.ExistingGroceryList) {
+                        onGroceryListFocus(focusedGroceryField.groceryList)
                     }
                 }
+            )
+        }
+    }
+}
+
+@Composable
+private fun CollectGroceryListsState(
+    groceryListsUiState: GroceryListsUiState,
+    newGroceryList: GroceryList?,
+    editingGroceryList: GroceryList?,
+    onDetailsGroceryList: () -> Unit,
+    onUpdateGroceryList: () -> Unit,
+    onCreateGroceryList: () -> Unit,
+    onDeleteGroceryList: (GroceryList) -> Unit,
+    onNewGroceryListTitleChanged: (String) -> Unit,
+    onGroceryListTitleChanged: (String) -> Unit,
+    onGroceryListFocused: (FocusedGroceryField) -> Unit,
+) {
+    when (groceryListsUiState) {
+        GroceryListsUiState.Error -> { EmptyState() }
+        GroceryListsUiState.Loading -> CircularProgressIndicator()
+        is GroceryListsUiState.Success -> {
+            if (
+                groceryListsUiState.groceryLists.isNotEmpty() || newGroceryList != null
+            ) {
+                GroceryLists(
+                    groceryLists = groceryListsUiState.groceryLists,
+                    newGroceryList = newGroceryList,
+                    editingGroceryList = editingGroceryList,
+                    onNewGroceryListTitleChanged = onNewGroceryListTitleChanged,
+                    onGroceryListTitleChanged = onGroceryListTitleChanged,
+                    onDetailsGroceryList = onDetailsGroceryList,
+                    onCreateGroceryList = onCreateGroceryList,
+                    onUpdateGroceryList = onUpdateGroceryList,
+                    onDeleteGroceryList = onDeleteGroceryList,
+                    onGroceryListFocused = onGroceryListFocused,
+                )
+            } else {
+                EmptyState()
             }
         }
     }
@@ -172,7 +196,7 @@ fun GroceryListsScreen(
 @Composable
 private fun GroceryLists(
     groceryLists: List<GroceryList>,
-    newGroceryList: NewGroceryListUiState?,
+    newGroceryList: GroceryList?,
     editingGroceryList: GroceryList?,
     onNewGroceryListTitleChanged: (String) -> Unit,
     onGroceryListTitleChanged: (String) -> Unit,
@@ -180,7 +204,7 @@ private fun GroceryLists(
     onCreateGroceryList: () -> Unit,
     onUpdateGroceryList: () -> Unit,
     onDeleteGroceryList: (GroceryList) -> Unit,
-    onTextFieldFocused: (FocusedGroceryField) -> Unit,
+    onGroceryListFocused: (FocusedGroceryField) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
@@ -188,7 +212,7 @@ private fun GroceryLists(
         mutableStateOf<Long?>(null)
     }
 
-    LaunchedEffect(newGroceryList) {
+    LaunchedEffect(newGroceryList != null) {
         if (newGroceryList != null) {
             listState.animateScrollToItem(index = groceryLists.size)
         }
@@ -199,6 +223,7 @@ private fun GroceryLists(
             .fillMaxSize()
             .imePadding(),
         state = listState,
+        contentPadding = PaddingValues(bottom = 76.dp),
     ) {
         groceryListRows(
             items = groceryLists,
@@ -209,7 +234,7 @@ private fun GroceryLists(
             },
             onTitleChanged = onGroceryListTitleChanged,
             onInfoIconClick = onDetailsGroceryList,
-            onTextFieldFocused = onTextFieldFocused,
+            onRowFocused = onGroceryListFocused,
             onUpdateGroceryList = onUpdateGroceryList,
             onDeleteGroceryList = onDeleteGroceryList,
         )
@@ -223,7 +248,7 @@ private fun GroceryLists(
                     onCreateGroceryList = onCreateGroceryList,
                     onTitleChanged = onNewGroceryListTitleChanged,
                     onInfoIconClick = onDetailsGroceryList,
-                    onTextFieldFocused = onTextFieldFocused
+                    onTextFieldFocused = onGroceryListFocused
                 )
             }
         }
@@ -289,8 +314,8 @@ private fun GroceryListsScreenPreview() {
                     )
                 )
             ),
-            newGroceryList = NewGroceryListUiState(
-                title = "New Grocery List"
+            newGroceryList = GroceryList(
+                name = "New Grocery List"
             ),
             editingGroceryList = null,
             addGroceryList = {},

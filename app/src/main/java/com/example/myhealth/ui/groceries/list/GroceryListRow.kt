@@ -30,7 +30,6 @@ import com.example.myhealth.core.designsystem.component.MHTextField
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 import com.example.myhealth.core.model.GroceryList
-import com.example.myhealth.ui.groceries.create.NewGroceryListUiState
 
 @Composable
 fun GroceryListRow(
@@ -63,7 +62,7 @@ fun GroceryListRow(
 @Composable
 fun NewGroceryListRow(
     modifier: Modifier = Modifier,
-    newGroceryList: NewGroceryListUiState,
+    newGroceryList: GroceryList,
     onCreateGroceryList: () -> Unit,
     onTitleChanged: (String) -> Unit,
     onInfoIconClick: () -> Unit,
@@ -73,7 +72,7 @@ fun NewGroceryListRow(
 
     GroceryListRowContent(
         modifier = modifier,
-        title = newGroceryList.title,
+        title = newGroceryList.name,
         autoFocus = true,
         onTitleChanged = onTitleChanged,
         onInfoIconClick = onInfoIconClick,
