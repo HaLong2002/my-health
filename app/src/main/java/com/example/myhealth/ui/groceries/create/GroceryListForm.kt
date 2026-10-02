@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,7 +32,7 @@ import com.example.myhealth.core.designsystem.component.MHButton
 import com.example.myhealth.core.designsystem.component.MHTextField
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
-import com.example.myhealth.core.model.RepeatType
+import com.example.myhealth.core.model.GroceryList
 import com.example.myhealth.ui.groceries.util.toDisplayDate
 import com.example.myhealth.ui.groceries.util.toDisplayTime
 import java.time.LocalDate
@@ -42,14 +41,8 @@ import java.time.LocalTime
 @Composable
 fun GroceryListForm(
     modifier: Modifier = Modifier,
-    title: String,
-    checkedAllDay: Boolean,
-    reminderDate: LocalDate,
-    reminderTime: LocalTime?,
-    repeatType: RepeatType,
+    groceryList: GroceryList,
     onTitleChanged: (String) -> Unit,
-    onSwitchAllDay: (Boolean) -> Unit,
-    onRepeatTypeChanged: (RepeatType) -> Unit,
     onGroceryListClick: () -> Unit,
     onSave: () -> Unit,
 ) {
@@ -65,7 +58,7 @@ fun GroceryListForm(
                 leadingIconContentDescription = R.string.text_field_write_icon_description,
                 trailingIcon = MyHealthIcons.Close,
                 trailingIconContentDescription = R.string.text_field_clear_icon_description,
-                value = title,
+                value = groceryList.name,
                 hint = stringResource(id = R.string.feature_create_grocery_list_hint_title),
                 onTrailingIconClick = { onTitleChanged("") },
                 onTextChanged = onTitleChanged,
@@ -79,14 +72,12 @@ fun GroceryListForm(
             Column(
                 modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
-                SwitchAllDaySection(
-                    value = checkedAllDay,
-                    onCheckedChange = onSwitchAllDay
-                )
-                DateTimeSection(
-                    date = reminderDate,
-                    time = reminderTime,
-                )
+                if (groceryList.reminderDate != null && groceryList.reminderTime != null) {
+                    DateTimeSection(
+                        date = groceryList.reminderDate!!,
+                        time = groceryList.reminderTime,
+                    )
+                }
                 RepeatSection()
             }
         }
@@ -121,27 +112,6 @@ private fun CardItem(
             ),
         content = content
     )
-}
-
-@Composable
-private fun SwitchAllDaySection(
-    value: Boolean,
-    onCheckedChange: (Boolean) -> Unit
-) {
-    SettingsRow(
-        icon = MyHealthIcons.Time,
-        iconContentDescription = stringResource(id = R.string.time_icon)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(text = stringResource(id = R.string.feature_create_grocery_list_time_all_day))
-            Switch(checked = value, onCheckedChange = { onCheckedChange(!it) })
-        }
-    }
-    Spacer(modifier = Modifier.height(12.dp))
 }
 
 @Composable
@@ -236,16 +206,10 @@ private fun SettingsRow(
 private fun GroceryListFormPreview() {
     MyHealthTheme {
         GroceryListForm(
-            title = stringResource(id = R.string.feature_create_grocery_list_title),
-            checkedAllDay = false,
             onTitleChanged = {},
             onGroceryListClick = {},
-            onSwitchAllDay = {},
-            onRepeatTypeChanged = {},
             onSave = {},
-            reminderDate = LocalDate.now(),
-            reminderTime = LocalTime.now(),
-            repeatType = RepeatType.DOES_NOT_REPEAT,
+            groceryList = GroceryList()
         )
     }
 }
