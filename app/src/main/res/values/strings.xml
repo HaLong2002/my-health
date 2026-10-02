@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">My Health</string>
+    <string name="filter_icon">Filter</string>
+    <string name="search_icon">Search</string>
+    <string name="add_icon">Add</string>
+    <string name="back_icon">Back</string>
+    <string name="check_icon">Check</string>
+    <string name="info_icon">Detailed information</string>
+    <string name="text_field_clear_icon_description">Clear text</string>
+    <string name="text_field_write_icon_description">Write text</string>
+    <string name="time_icon">Time</string>
+    <string name="repeat_icon">Repeat</string>
+    <string name="arrow_forward_icon">Arrow forward</string>
+    <string name="expand_more_icon">Expand more</string>
+    <string name="check_list_icon">Check list</string>
+    <string name="quantity">Qty: %1d</string>
 
     <!-- Home -->
     <string name="feature_home_title">Home</string>
@@ -10,9 +24,28 @@
     <string name="feature_account_title">Account</string>
 
     <!-- My Recipes -->
-    <string name="feature_my_recipes_top_app_bar_navigation_icon_description">Search</string>
-    <string name="feature_my_recipes_top_app_bar_action_icon_description">Filter</string>
     <string name="feature_my_recipes_title">My Recipes</string>
     <string name="feature_my_recipes_empty_error">No saved recipes</string>
     <string name="feature_my_recipes_empty_description">Recipes you save will be stored here</string>
+
+    <!-- Groceries -->
+    <string name="feature_groceries_title">My Shopping</string>
+    <string name="feature_groceries_icon_text">Groceries</string>
+    <string name="feature_groceries_save_button">Save</string>
+    <string name="feature_groceries_empty_error">No saved shopping list</string>
+    <string name="feature_groceries_empty_description">Shopping list you save will be stored here</string>
+    <string name="feature_create_grocery_list_title">New Grocery List</string>
+    <string name="feature_create_grocery_list_hint_title">Add Title</string>
+    <string name="feature_create_grocery_list_time_all_day">All-day</string>
+    <string name="feature_create_grocery_list_time_does_not_repeat">Does not repeat</string>
+    <string name="feature_create_grocery_list_time_every_day">Every day</string>
+    <string name="feature_create_grocery_list_time_every_week">Every week</string>
+    <string name="feature_create_grocery_list_time_every_month">Every month</string>
+    <string name="feature_create_grocery_list_time_every_year">Every year</string>
+    <string name="feature_create_grocery_list_time_custom">Custom...</string>
+    <string name="feature_create_grocery_list_check_list">Grocery list</string>
+    <plurals name="feature_grocery_list_detail_title">
+        <item quantity="one">Grocery list (1 item)</item>
+        <item quantity="other">Grocery list (%1d items)</item>
+    </plurals>
 </resources>

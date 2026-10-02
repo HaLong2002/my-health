@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -12,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.myhealth"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
@@ -52,6 +54,12 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.navigation3.runtime)
 
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.lifecylce.viewmodel.compose)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.kotlinx.coroutines.core)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,4 +69,7 @@ dependencies {
 
     implementation(projects.core.designsystem)
     implementation(projects.core.navigation)
+    implementation(projects.core.model)
+    implementation(projects.core.data)
+    implementation(projects.core.common)
 }
