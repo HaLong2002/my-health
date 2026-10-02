@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -17,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -25,18 +27,43 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.component.MyHealthCheckbox
 import com.example.myhealth.core.designsystem.component.MyHealthMediumTopAppBar
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
+import com.example.myhealth.core.model.GroceryDetail
+
+@Composable
+fun GroceryListDetailScreen(
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    viewModel: GroceryListDetailViewModel = hiltViewModel(),
+) {
+    val groceries: List<GroceryDetail>? by viewModel.groceries.collectAsStateWithLifecycle()
+    val areAllGroceriesChecked: Boolean by viewModel.areAllGroceriesChecked.collectAsStateWithLifecycle()
+
+    GroceryListDetailScreen(
+        groceries = groceries,
+        areAllGroceriesChecked = areAllGroceriesChecked,
+        onBackClick = onBackClick,
+        onAddClick = {},
+        modifier = modifier,
+        onCheckAllGroceries = viewModel::checkAllGroceries
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroceryListDetailScreen(
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit = {},
-    onAddClick: () -> Unit = {},
+    groceries: List<GroceryDetail>?,
+    areAllGroceriesChecked: Boolean,
+    onBackClick: () -> Unit,
+    onAddClick: () -> Unit,
+    onCheckAllGroceries: (Boolean) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
@@ -45,7 +72,7 @@ fun GroceryListDetailScreen(
         topBar = {
             Column {
                 MyHealthMediumTopAppBar(
-                    title = { GroceryListDetailTitle(count = 1) },
+                    title = { GroceryListDetailTitle(count = groceries?.size ?: 0) },
                     navigationIcon = MyHealthIcons.ArrowBack,
                     navigationIconContentDescription = stringResource(R.string.back_icon),
                     actions = {
@@ -56,8 +83,8 @@ fun GroceryListDetailScreen(
                             )
                         }
                         MyHealthCheckbox(
-                            checked = false,
-                            onCheckedChange = {},
+                            checked = areAllGroceriesChecked,
+                            onCheckedChange = onCheckAllGroceries,
                         )
                     },
                     onNavigationClick = onBackClick,
@@ -69,9 +96,12 @@ fun GroceryListDetailScreen(
             }
         }
     ) { contentPadding ->
-        GroceryListDetail(
-            modifier = Modifier.padding(contentPadding),
-        )
+        if (groceries != null) {
+            GroceryListDetail(
+                modifier = Modifier.padding(contentPadding),
+                groceries = groceries,
+            )
+        }
     }
 }
 
@@ -92,18 +122,22 @@ private fun GroceryListDetailTitle(count: Int) {
 @Composable
 private fun GroceryListDetail(
     modifier: Modifier = Modifier,
+    groceries: List<GroceryDetail>,
 ) {
     LazyColumn(
         modifier = modifier.padding(start = 16.dp, end = 4.dp),
     ) {
-        items(10) {
-            GroceryItem(
-                quantity = 1,
-                name = "Ice Cream Sandwich",
-            )
-            HorizontalDivider(modifier = Modifier.padding(end = 12.dp))
-            Spacer(modifier = Modifier.height(12.dp))
-        }
+        items(
+            items = groceries,
+            itemContent = { grocery ->
+                GroceryItem(
+                    quantity = grocery.quantity,
+                    name = grocery.name,
+                )
+                HorizontalDivider(modifier = Modifier.padding(end = 12.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+        )
     }
 }
 
@@ -146,13 +180,5 @@ private fun GroceryItemPreview() {
             quantity = 1,
             name = "Ice Cream Sandwich"
         )
-    }
-}
-
-@Preview
-@Composable
-private fun GroceryListDetailScreenPreview() {
-    MyHealthTheme {
-        GroceryListDetailScreen()
     }
 }

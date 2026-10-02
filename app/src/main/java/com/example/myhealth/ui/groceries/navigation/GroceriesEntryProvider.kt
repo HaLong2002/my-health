@@ -24,7 +24,6 @@ fun EntryProviderScope<NavKey>.groceriesEntry(navigator: Navigator) {
     entry<GroceryListDetailNavKey> {
         GroceryListDetailScreen(
             onBackClick = { navigator.goBack() },
-            onAddClick = { navigator.goBack() },
         )
     }
 }
