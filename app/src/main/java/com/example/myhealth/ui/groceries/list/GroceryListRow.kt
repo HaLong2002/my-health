@@ -19,9 +19,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myhealth.R
@@ -141,13 +139,11 @@ private fun GroceryListInputTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean,
     textFieldValue: String,
-    keyboardType: KeyboardType = KeyboardType.Text,
     requestFocus: Boolean,
     onTextChanged: (String) -> Unit,
     onTextFieldFocused: (Boolean) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
         if (requestFocus) {
@@ -162,12 +158,8 @@ private fun GroceryListInputTextField(
                 canFocus = enabled
             },
         value = textFieldValue,
-        keyboardType = keyboardType,
         readOnly = !enabled,
         onTextChanged = onTextChanged,
-        onKeyboardDone = {
-            focusManager.clearFocus()
-        },
         onTextFieldFocused = onTextFieldFocused,
     )
 }
