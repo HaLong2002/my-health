@@ -20,6 +20,9 @@
     <string name="feature_home_done">Done</string>
     <string name="feature_home_loading">Loading for you…</string>
 
+    <!-- Health -->
+    <string name="feature_health_title">Health</string>
+
     <!-- Account -->
     <string name="feature_account_title">Account</string>
 

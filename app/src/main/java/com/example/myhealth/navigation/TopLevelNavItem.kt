@@ -5,6 +5,7 @@ import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.ui.account.navigation.AccountNavKey
 import com.example.myhealth.ui.groceries.navigation.GroceryListsNavKey
+import com.example.myhealth.ui.health.navigation.HealthNavKey
 import com.example.myhealth.ui.home.navigation.HomeNavKey
 import com.example.myhealth.ui.recipes.navigation.RecipesNavKey
 
@@ -20,6 +21,13 @@ val HOME = TopLevelNavItem(
     unselectedIcon = MyHealthIcons.HomeBorder,
     iconTextId = R.string.feature_home_title,
     titleTextId = R.string.feature_home_title
+)
+
+val HEALTH = TopLevelNavItem(
+    selectedIcon = MyHealthIcons.Wellness,
+    unselectedIcon = MyHealthIcons.WellnessBorder,
+    iconTextId = R.string.feature_health_title,
+    titleTextId = R.string.feature_health_title
 )
 
 val ACCOUNT = TopLevelNavItem(
@@ -45,6 +53,7 @@ val GROCERIES = TopLevelNavItem(
 
 val TOP_LEVEL_ITEMS = mapOf(
     HomeNavKey to HOME,
+    HealthNavKey to HEALTH,
     RecipesNavKey to MY_RECIPES,
     GroceryListsNavKey to GROCERIES,
     AccountNavKey to ACCOUNT,

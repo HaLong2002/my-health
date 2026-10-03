@@ -26,6 +26,7 @@ import com.example.myhealth.core.navigation.toEntries
 import com.example.myhealth.navigation.TOP_LEVEL_ITEMS
 import com.example.myhealth.ui.account.navigation.accountEntry
 import com.example.myhealth.ui.groceries.navigation.groceriesEntry
+import com.example.myhealth.ui.health.navigation.healthEntry
 import com.example.myhealth.ui.home.navigation.homeEntry
 import com.example.myhealth.ui.recipes.navigation.recipesEntry
 
@@ -38,6 +39,7 @@ fun MyHealthApp(
 
     val entryProvider = entryProvider {
         homeEntry(navigator)
+        healthEntry(navigator)
         recipesEntry(navigator)
         groceriesEntry(navigator)
         accountEntry(navigator)
