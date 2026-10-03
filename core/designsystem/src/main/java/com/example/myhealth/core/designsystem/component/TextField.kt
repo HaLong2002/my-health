@@ -16,8 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
@@ -31,7 +34,8 @@ fun MHTextField(
     hint: String = "",
     singleLine: Boolean = true,
     textStyle: TextStyle = LocalTextStyle.current,
-    keyboardType: KeyboardType,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Done,
     colors: TextFieldColors? = null,
     readOnly: Boolean = false,
     onTrailingIconClick: () -> Unit = {},
@@ -39,6 +43,8 @@ fun MHTextField(
     onKeyboardDone: () -> Unit = {},
     onTextFieldFocused: (Boolean) -> Unit = {},
 ) {
+    val focusManager = LocalFocusManager.current
+
     TextField(
         value = value,
         onValueChange = onTextChanged,
@@ -76,11 +82,16 @@ fun MHTextField(
                 }
             }
         } else null,
-        keyboardActions = KeyboardActions(
-            onDone = { onKeyboardDone() }
-        ),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
+            capitalization = KeyboardCapitalization.Sentences,
+            imeAction = imeAction,
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+                onKeyboardDone()
+            }
         ),
         singleLine = singleLine,
         readOnly = readOnly,

@@ -99,12 +99,12 @@ fun GroceryListsScreen(
 
     val focusManager = LocalFocusManager.current
 
-    val saveGroceryList = {
+    val clearFocus = {
         focusManager.clearFocus()
     }
 
     BackHandler(enabled = focusedField != FocusedGroceryField.None) {
-        saveGroceryList()
+        clearFocus()
     }
 
     Scaffold(
@@ -114,7 +114,7 @@ fun GroceryListsScreen(
                 titleRes = R.string.feature_groceries_title,
                 navigationIconShown = false,
                 actionIconShown = focusedField != FocusedGroceryField.None,
-                onActionClick = saveGroceryList
+                onActionClick = clearFocus
             )
         },
         floatingActionButton = {
