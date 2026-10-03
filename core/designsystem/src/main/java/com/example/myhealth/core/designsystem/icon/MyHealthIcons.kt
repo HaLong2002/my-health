@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.SelfImprovement
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.Add
@@ -24,6 +25,7 @@ import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.SelfImprovement
 import androidx.compose.material.icons.rounded.ShoppingBag
 
 object MyHealthIcons {
@@ -41,6 +43,8 @@ object MyHealthIcons {
     val ExpandMore = Icons.Rounded.ExpandMore
     val Home = Icons.Rounded.Home
     val HomeBorder = Icons.Outlined.Home
+    val Wellness = Icons.Rounded.SelfImprovement
+    val WellnessBorder = Icons.Outlined.SelfImprovement
     val Person = Icons.Rounded.Person
     val PersonBorder = Icons.Outlined.Person
     val CollectionBookmark = Icons.Rounded.CollectionsBookmark
