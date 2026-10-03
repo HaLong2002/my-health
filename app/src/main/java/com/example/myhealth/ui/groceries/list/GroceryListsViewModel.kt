@@ -109,8 +109,8 @@ class GroceryListsViewModel @Inject constructor(
             }
 
             editingWithTrimmedName.name.isBlank() -> {
+                pendingUpdateGroceryList = true
                 onDeleteGroceryList(groceryList = original)
-                clearEditingGroceryList()
             }
 
             else -> {
