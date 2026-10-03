@@ -24,8 +24,6 @@ This project is currently under active development.
 
 ## Screenshots
 
-![Home](readme/screenshots/home.png)
-
 <p align="center">
   <img src="readme/screenshots/home.png" width="200" alt="">
   <img src="readme/screenshots/recipes.png" width="200" alt="">
