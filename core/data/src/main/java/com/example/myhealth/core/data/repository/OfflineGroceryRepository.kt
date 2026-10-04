@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.collections.map
 
-internal class OfflineGroceriesRepository @Inject constructor(
+internal class OfflineGroceryRepository @Inject constructor(
     private val groceryDao: GroceryDao,
-) : GroceriesRepository {
+) : GroceryRepository {
 
     override fun getGroceryLists(): Flow<List<GroceryList>> =
         groceryDao.observeGroceryLists()
