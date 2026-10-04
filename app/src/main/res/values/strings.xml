@@ -10,6 +10,7 @@
     <string name="text_field_write_icon_description">Write text</string>
     <string name="time_icon">Time</string>
     <string name="repeat_icon">Repeat</string>
+    <string name="body_measurement_icon">Body measurement</string>
     <string name="arrow_forward_icon">Arrow forward</string>
     <string name="expand_more_icon">Expand more</string>
     <string name="check_list_icon">Check list</string>
@@ -22,6 +23,10 @@
 
     <!-- Health -->
     <string name="feature_health_title">Health</string>
+    <string name="feature_health_categories_title">Health Categories</string>
+    <string name="feature_health_body_measurement_title">Body Measurements</string>
+    <string name="feature_health_body_measurement_kg">kg</string>
+    <string name="feature_health_body_measurement_cm">cm</string>
 
     <!-- Account -->
     <string name="feature_account_title">Account</string>

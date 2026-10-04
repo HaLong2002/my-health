@@ -10,6 +10,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.SelfImprovement
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material.icons.rounded.AccessTime
+import androidx.compose.material.icons.rounded.Accessibility
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ChecklistRtl
@@ -55,4 +56,5 @@ object MyHealthIcons {
     val Filter = Icons.Rounded.FilterList
     val MoreVert = Icons.Default.MoreVert
     val Info = Icons.Rounded.Info
+    val BodyMeasurement = Icons.Rounded.Accessibility
 }

@@ -87,7 +87,7 @@ fun MyHealthMediumTopAppBar(
     title: @Composable () -> Unit,
     navigationIcon: ImageVector? = null,
     navigationIconContentDescription: String = "",
-    actions: @Composable RowScope.() -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
     colors: TopAppBarColors? = null,
     onNavigationClick: () -> Unit = {},
