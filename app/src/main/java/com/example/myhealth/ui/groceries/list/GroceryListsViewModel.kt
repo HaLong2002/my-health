@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myhealth.core.common.result.asResult
 import com.example.myhealth.core.common.result.Result
-import com.example.myhealth.core.data.repository.GroceriesRepository
+import com.example.myhealth.core.data.repository.GroceryRepository
 import com.example.myhealth.core.model.GroceryList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -20,10 +20,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GroceryListsViewModel @Inject constructor(
-    private val groceriesRepository: GroceriesRepository,
+    private val groceryRepository: GroceryRepository,
 ) : ViewModel() {
     val groceryListsUiState: StateFlow<GroceryListsUiState> = groceryListsUiState(
-        groceriesRepository = groceriesRepository,
+        groceryRepository = groceryRepository,
     ).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -89,7 +89,7 @@ class GroceryListsViewModel @Inject constructor(
         pendingCreateGroceryList = true
 
         viewModelScope.launch {
-            groceriesRepository.insertGroceryList(
+            groceryRepository.insertGroceryList(
                 groceryList = newGroceryList
             )
         }
@@ -117,7 +117,7 @@ class GroceryListsViewModel @Inject constructor(
                 pendingUpdateGroceryList = true
 
                 viewModelScope.launch {
-                    groceriesRepository.updateGroceryList(
+                    groceryRepository.updateGroceryList(
                         groceryList = editingWithTrimmedName
                     )
                 }
@@ -132,7 +132,7 @@ class GroceryListsViewModel @Inject constructor(
 
     fun onDeleteGroceryList(groceryList: GroceryList) {
         viewModelScope.launch {
-            groceriesRepository.deleteGroceryList(
+            groceryRepository.deleteGroceryList(
                 groceryList = groceryList
             )
         }
@@ -140,9 +140,9 @@ class GroceryListsViewModel @Inject constructor(
 }
 
 private fun groceryListsUiState(
-    groceriesRepository: GroceriesRepository,
+    groceryRepository: GroceryRepository,
 ): Flow<GroceryListsUiState> {
-    val groceryLists: Flow<List<GroceryList>> = groceriesRepository.getGroceryLists()
+    val groceryLists: Flow<List<GroceryList>> = groceryRepository.getGroceryLists()
 
     return groceryLists
         .asResult()
