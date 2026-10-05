@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,15 +35,31 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.component.MyHealthMediumTopAppBar
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 
+@Composable
+fun HealthScreen(
+    modifier: Modifier = Modifier,
+    viewModel: HealthViewModel = hiltViewModel(),
+) {
+    val healthUiState: HealthUiState by viewModel.healthUiState.collectAsStateWithLifecycle()
+
+    HealthScreen(
+        modifier = modifier,
+        healthUiState = healthUiState,
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HealthScreen(
     modifier: Modifier = Modifier,
+    healthUiState: HealthUiState,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
@@ -66,7 +83,10 @@ fun HealthScreen(
                 .verticalScroll(rememberScrollState()),
         ) {
             TitleSection()
-            BodyMeasurementSection()
+            BodyMeasurementSection(
+                weight = healthUiState.weightRecord?.weight,
+                height = healthUiState.healthProfile?.height,
+            )
         }
     }
 }
@@ -81,7 +101,10 @@ private fun TitleSection() {
 }
 
 @Composable
-private fun BodyMeasurementSection() {
+private fun BodyMeasurementSection(
+    weight: Float?,
+    height: Float?,
+) {
     HealthCategoriesCard(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
     ) {
@@ -89,7 +112,6 @@ private fun BodyMeasurementSection() {
             modifier = Modifier.padding(16.dp)
         ) {
             SettingsRow(
-                modifier = Modifier.padding(bottom = 22.dp),
                 icon = MyHealthIcons.BodyMeasurement,
                 iconContentDescription = R.string.body_measurement_icon,
             ) {
@@ -108,23 +130,26 @@ private fun BodyMeasurementSection() {
                 }
             }
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                ValueWithUnit(
-                    text = "57.5",
-                    unit = stringResource(R.string.feature_health_body_measurement_kg),
-                )
-                Text(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    text = "|",
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    fontSize = 22.sp,
-                )
-                ValueWithUnit(
-                    text = "161",
-                    unit = stringResource(R.string.feature_health_body_measurement_cm),
-                )
+            if (weight != null && height != null) {
+                Row(
+                    modifier = Modifier.padding(top = 22.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    ValueWithUnit(
+                        text = weight.toString(),
+                        unit = stringResource(R.string.feature_health_body_measurement_kg),
+                    )
+                    Text(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        text = "|",
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontSize = 22.sp,
+                    )
+                    ValueWithUnit(
+                        text = height.toString(),
+                        unit = stringResource(R.string.feature_health_body_measurement_cm),
+                    )
+                }
             }
         }
     }
