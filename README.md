@@ -31,9 +31,9 @@ MyHealth is an ongoing personal project. Features are being developed incrementa
 
 <p align="center">
   <img src="readme/screenshots/home.png" width="200" alt="">
+  <img src="readme/screenshots/health.png" width="200" alt="">
   <img src="readme/screenshots/recipes.png" width="200" alt="">
   <img src="readme/screenshots/groceries.png" width="200" alt="">
-  <img src="readme/screenshots/grocery_list_deletion.png" width="200" alt="">
   <img src="readme/screenshots/account.png" width="200" alt="">
 </p>
 
