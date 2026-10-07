@@ -2,14 +2,17 @@
 
 MyHealth is a personal Android application for health and wellness management.
 
-The project is built with modern Android development tools and focuses on managing health-related information, recipes, and grocery lists.
+The project is built with modern Android development tools and is currently under active development.
 
-#### 🚧 Work in Progress
-This project is currently under active development.
+## 🚧 Work in Progress
+MyHealth is an ongoing personal project. Features are being developed incrementally while exploring modern Android development practices and architecture.
 
 ## Features
 
 ### Home
+- Feature structure and navigation setup
+
+### Health
 - Feature structure and navigation setup
 
 ### Recipes
@@ -17,7 +20,9 @@ This project is currently under active development.
 
 ### Grocery Lists
 - Display grocery lists
-- Create, edit and delete grocery lists by name on the Grocery Lists screen
+- Create grocery lists by name
+- Edit grocery list names
+- Delete grocery lists
 
 ### Account
 - Feature structure and navigation setup
@@ -26,9 +31,9 @@ This project is currently under active development.
 
 <p align="center">
   <img src="readme/screenshots/home.png" width="200" alt="">
+  <img src="readme/screenshots/health.png" width="200" alt="">
   <img src="readme/screenshots/recipes.png" width="200" alt="">
   <img src="readme/screenshots/groceries.png" width="200" alt="">
-  <img src="readme/screenshots/grocery_list_deletion.png" width="200" alt="">
   <img src="readme/screenshots/account.png" width="200" alt="">
 </p>
 
@@ -46,13 +51,14 @@ This project is currently under active development.
 
 ## Architecture
 
-The project follows a modular architecture with shared `core` modules and feature-based organization.
+The project uses a feature-based structure with shared `core` modules.
 
 ```
 MyHealth
 ├── app
 │   ├── account
 │   ├── groceries
+│   ├── health
 │   ├── home
 │   └── recipes
 │
@@ -69,11 +75,17 @@ The `app` module contains feature-specific UI and logic, while the `core` module
 
 ## Project Status
 
-MyHealth is an ongoing personal project
-
 Current development focuses on:
-- Building the structure, navigation and features for Health
+- Developing the Health feature
 
 ## Purpose
 
-This project is built as a personal learning project to explore modern Android development and apply concepts such as Jetpack Compose, Navigation 3, MVVM, Room, Hilt, Coroutines, Flow and modular architecture.
+This project is built as a personal learning project to explore modern Android development and apply concepts such as:
+- Jetpack Compose
+- Navigation 3
+- MVVM
+- Room
+- Hilt
+- Coroutines
+- Flow
+- Modular architecture
