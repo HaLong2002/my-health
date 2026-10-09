@@ -1,7 +1,6 @@
 package com.example.myhealth.core.designsystem.component
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -49,7 +48,6 @@ fun MHTextField(
         value = value,
         onValueChange = onTextChanged,
         modifier = modifier
-            .fillMaxWidth()
             .onFocusChanged { state ->
                 onTextFieldFocused(state.isFocused)
             },

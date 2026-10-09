@@ -1,11 +1,9 @@
 package com.example.myhealth.core.designsystem.component
 
-//noinspection SuspiciousImport
 import android.R
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,13 +38,13 @@ fun MyHealthTopAppBar(
     onNavigationClick: () -> Unit = {},
     onActionClick: () -> Unit = {},
 ) {
-    CenterAlignedTopAppBar(
+    TopAppBar(
         modifier = modifier,
         title = {
             titleRes?.let {
                 Text(
                     text = stringResource(id = titleRes),
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.headlineLarge
                 )
             }
         },
@@ -87,7 +85,7 @@ fun MyHealthMediumTopAppBar(
     title: @Composable () -> Unit,
     navigationIcon: ImageVector? = null,
     navigationIconContentDescription: String = "",
-    actions: @Composable RowScope.() -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
     colors: TopAppBarColors? = null,
     onNavigationClick: () -> Unit = {},

@@ -1,7 +1,9 @@
 package com.example.myhealth.core.data.di
 
 import com.example.myhealth.core.data.repository.GroceryRepository
+import com.example.myhealth.core.data.repository.BodyMeasurementRepository
 import com.example.myhealth.core.data.repository.OfflineGroceryRepository
+import com.example.myhealth.core.data.repository.OfflineBodyMeasurementRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,4 +16,9 @@ abstract class DataModule {
     internal abstract fun bindsGroceryRepository(
         groceryRepository: OfflineGroceryRepository,
     ): GroceryRepository
+
+    @Binds
+    internal abstract fun bindsBodyMeasurementRepository(
+        bodyMeasurementRepository: OfflineBodyMeasurementRepository,
+    ): BodyMeasurementRepository
 }
