@@ -27,6 +27,8 @@
     <string name="feature_health_body_measurement_title">Body Measurements</string>
     <string name="feature_health_body_measurement_kg">kg</string>
     <string name="feature_health_body_measurement_cm">cm</string>
+    <string name="feature_health_body_measurement_empty">You don\'t have any body measurements yet, but you can start here:</string>
+    <string name="feature_health_body_measurement_add_title">Add Body Measurements</string>
 
     <!-- Account -->
     <string name="feature_account_title">Account</string>
