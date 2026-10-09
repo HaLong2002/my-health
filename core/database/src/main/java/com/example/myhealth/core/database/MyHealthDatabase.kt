@@ -10,14 +10,14 @@ import com.example.myhealth.core.database.dao.HealthDao
 import com.example.myhealth.core.database.model.BodyMeasurementEntity
 import com.example.myhealth.core.database.model.GroceryEntity
 import com.example.myhealth.core.database.model.GroceryListEntity
-import com.example.myhealth.core.database.model.HealthProfileEntity
+import com.example.myhealth.core.database.model.HeightRecordEntity
 import com.example.myhealth.core.database.model.WeightRecordEntity
 
 @Database(
     entities = [
         GroceryEntity::class,
         GroceryListEntity::class,
-        HealthProfileEntity::class,
+        HeightRecordEntity::class,
         WeightRecordEntity::class,
         BodyMeasurementEntity::class,
     ],
