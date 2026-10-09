@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,15 +20,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -38,7 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myhealth.R
-import com.example.myhealth.core.designsystem.component.MyHealthMediumTopAppBar
+import com.example.myhealth.core.designsystem.component.MHLeadingButton
+import com.example.myhealth.core.designsystem.component.MyHealthTopAppBar
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 import com.example.myhealth.core.model.BodyMeasurementSummary
@@ -62,19 +62,11 @@ fun HealthScreen(
     modifier: Modifier = Modifier,
     bodyMeasurementSummary: BodyMeasurementSummary,
 ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-
     Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier,
         topBar = {
-            MyHealthMediumTopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(id = R.string.feature_health_title),
-                        style = MaterialTheme.typography.headlineLarge,
-                    )
-                },
-                scrollBehavior = scrollBehavior,
+            MyHealthTopAppBar(
+                titleRes = R.string.feature_health_title,
             )
         }
     ) { padding ->
@@ -83,7 +75,6 @@ fun HealthScreen(
                 .padding(padding)
                 .verticalScroll(rememberScrollState()),
         ) {
-            TitleSection()
             BodyMeasurementSection(
                 bodyMeasurementSummary = bodyMeasurementSummary,
             )
@@ -92,30 +83,31 @@ fun HealthScreen(
 }
 
 @Composable
-private fun TitleSection() {
-    Text(
-        modifier = Modifier.padding(16.dp),
-        text = stringResource(id = R.string.feature_health_categories_title),
-        style = MaterialTheme.typography.titleLarge
-    )
-}
-
-@Composable
 private fun BodyMeasurementSection(
     bodyMeasurementSummary: BodyMeasurementSummary,
 ) {
     val weight = bodyMeasurementSummary.weight
     val height = bodyMeasurementSummary.height
+    val waist = bodyMeasurementSummary.waist
+    val chest = bodyMeasurementSummary.chest
+    val hip = bodyMeasurementSummary.hip
+
+    val hasBodyMeasurement = listOf(
+        weight.current,
+        height.current,
+        waist.current,
+        chest.current,
+        hip.current
+    ).any { it != null }
 
     HealthCard(
-        modifier = Modifier.padding(horizontal = 16.dp),
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        modifier = Modifier.padding(16.dp),
+        containerColor = MaterialTheme.colorScheme.surfaceContainer,
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             SettingsRow(
-                modifier = Modifier.padding(bottom = 22.dp),
                 icon = MyHealthIcons.BodyMeasurement,
                 iconContentDescription = R.string.body_measurement_icon,
             ) {
@@ -125,30 +117,37 @@ private fun BodyMeasurementSection(
                 ) {
                     Text(
                         text = stringResource(id = R.string.feature_health_body_measurement_title),
+                        style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                     Icon(
                         imageVector = MyHealthIcons.ArrowForward,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         contentDescription = stringResource(R.string.arrow_forward_icon)
                     )
                 }
             }
 
-            if (weight.current != null) {
+            Spacer(Modifier.height(24.dp))
+
+            if (hasBodyMeasurement) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    ValueWithUnit(
-                        text = weight.current.toString(),
-                        unit = stringResource(R.string.feature_health_body_measurement_kg),
-                    )
-                    if (height.current != null) {
+                    if (weight.current != null) {
+                        ValueWithUnit(
+                            text = weight.current.toString(),
+                            unit = stringResource(R.string.feature_health_body_measurement_kg),
+                        )
                         Text(
                             modifier = Modifier.padding(horizontal = 16.dp),
                             text = "|",
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                             fontSize = 22.sp,
                         )
+
+                    }
+                    if (height.current != null) {
                         ValueWithUnit(
                             text = height.current.toString(),
                             unit = stringResource(R.string.feature_health_body_measurement_cm),
@@ -161,19 +160,22 @@ private fun BodyMeasurementSection(
                         modifier = Modifier.padding(bottom = 16.dp),
                         text = stringResource(id = R.string.feature_health_body_measurement_empty)
                     )
-                    HealthCard {
-                        Row(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Icon(
-                                imageVector = MyHealthIcons.Add,
-                                contentDescription = stringResource(id = R.string.add_icon),
-                            )
-                            Text(
-                                text = stringResource(id = R.string.feature_health_body_measurement_add_title),
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
+                    MHLeadingButton(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                            contentColor = MaterialTheme.colorScheme.onSurface,
+                        ),
+                    ) {
+                        Icon(
+                            imageVector = MyHealthIcons.Add,
+                            contentDescription = stringResource(id = R.string.add_icon),
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = stringResource(id = R.string.feature_health_body_measurement_add_title),
+                            fontWeight = FontWeight.Bold,
+                        )
                     }
                 }
             }
@@ -210,6 +212,7 @@ private fun SettingsRow(
     ) {
         Icon(
             imageVector = icon,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
             contentDescription = iconContentDescription?.let {
                 stringResource(it)
             }
@@ -242,6 +245,8 @@ fun ValueWithUnit(
 @Composable
 private fun HealthScreenPreview() {
     MyHealthTheme {
-        HealthScreen()
+        HealthScreen(
+            bodyMeasurementSummary = BodyMeasurementSummary()
+        )
     }
 }
