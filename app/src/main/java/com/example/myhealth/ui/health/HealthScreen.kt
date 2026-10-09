@@ -41,17 +41,18 @@ import com.example.myhealth.R
 import com.example.myhealth.core.designsystem.component.MyHealthMediumTopAppBar
 import com.example.myhealth.core.designsystem.icon.MyHealthIcons
 import com.example.myhealth.core.designsystem.theme.MyHealthTheme
+import com.example.myhealth.core.model.BodyMeasurementSummary
 
 @Composable
 fun HealthScreen(
     modifier: Modifier = Modifier,
     viewModel: HealthViewModel = hiltViewModel(),
 ) {
-    val healthUiState: HealthUiState by viewModel.healthUiState.collectAsStateWithLifecycle()
+    val bodyMeasurementSummary: BodyMeasurementSummary by viewModel.bodyMeasurementSummary.collectAsStateWithLifecycle()
 
     HealthScreen(
         modifier = modifier,
-        healthUiState = healthUiState,
+        bodyMeasurementSummary = bodyMeasurementSummary,
     )
 }
 
@@ -59,7 +60,7 @@ fun HealthScreen(
 @Composable
 fun HealthScreen(
     modifier: Modifier = Modifier,
-    healthUiState: HealthUiState,
+    bodyMeasurementSummary: BodyMeasurementSummary,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
@@ -84,8 +85,7 @@ fun HealthScreen(
         ) {
             TitleSection()
             BodyMeasurementSection(
-                weight = healthUiState.weightRecord?.weight,
-                height = healthUiState.healthProfile?.height,
+                bodyMeasurementSummary = bodyMeasurementSummary,
             )
         }
     }
@@ -102,16 +102,20 @@ private fun TitleSection() {
 
 @Composable
 private fun BodyMeasurementSection(
-    weight: Float?,
-    height: Float?,
+    bodyMeasurementSummary: BodyMeasurementSummary,
 ) {
-    HealthCategoriesCard(
+    val weight = bodyMeasurementSummary.weight
+    val height = bodyMeasurementSummary.height
+
+    HealthCard(
+        modifier = Modifier.padding(horizontal = 16.dp),
         containerColor = MaterialTheme.colorScheme.primaryContainer,
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             SettingsRow(
+                modifier = Modifier.padding(bottom = 22.dp),
                 icon = MyHealthIcons.BodyMeasurement,
                 iconContentDescription = R.string.body_measurement_icon,
             ) {
@@ -130,25 +134,47 @@ private fun BodyMeasurementSection(
                 }
             }
 
-            if (weight != null && height != null) {
+            if (weight.current != null) {
                 Row(
-                    modifier = Modifier.padding(top = 22.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     ValueWithUnit(
-                        text = weight.toString(),
+                        text = weight.current.toString(),
                         unit = stringResource(R.string.feature_health_body_measurement_kg),
                     )
+                    if (height.current != null) {
+                        Text(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            text = "|",
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            fontSize = 22.sp,
+                        )
+                        ValueWithUnit(
+                            text = height.current.toString(),
+                            unit = stringResource(R.string.feature_health_body_measurement_cm),
+                        )
+                    }
+                }
+            } else {
+                Column {
                     Text(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        text = "|",
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        fontSize = 22.sp,
+                        modifier = Modifier.padding(bottom = 16.dp),
+                        text = stringResource(id = R.string.feature_health_body_measurement_empty)
                     )
-                    ValueWithUnit(
-                        text = height.toString(),
-                        unit = stringResource(R.string.feature_health_body_measurement_cm),
-                    )
+                    HealthCard {
+                        Row(
+                            modifier = Modifier.padding(16.dp)
+                        ) {
+                            Icon(
+                                imageVector = MyHealthIcons.Add,
+                                contentDescription = stringResource(id = R.string.add_icon),
+                            )
+                            Text(
+                                text = stringResource(id = R.string.feature_health_body_measurement_add_title),
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -156,14 +182,13 @@ private fun BodyMeasurementSection(
 }
 
 @Composable
-private fun HealthCategoriesCard(
+private fun HealthCard(
+    modifier: Modifier = Modifier,
     containerColor: Color = Color.Unspecified,
     content: @Composable () -> Unit,
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+        modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = containerColor,
         ),
