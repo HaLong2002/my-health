@@ -54,6 +54,7 @@ fun GroceryListForm(
     ) {
         CardItem {
             MHTextField(
+                modifier = Modifier.fillMaxWidth(),
                 leadingIcon = MyHealthIcons.Edit,
                 leadingIconContentDescription = R.string.text_field_write_icon_description,
                 trailingIcon = MyHealthIcons.Close,

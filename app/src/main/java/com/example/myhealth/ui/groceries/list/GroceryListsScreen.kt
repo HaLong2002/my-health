@@ -124,7 +124,6 @@ fun GroceryListsScreen(
                 iconDescription = stringResource(id = R.string.add_icon),
             )
         },
-        containerColor = MaterialTheme.colorScheme.surface,
     ) { padding ->
         Box(
             modifier = Modifier
