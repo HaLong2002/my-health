@@ -23,7 +23,10 @@
 
     <!-- Health -->
     <string name="feature_health_title">Health</string>
-    <string name="feature_health_categories_title">Health Categories</string>
+    <string name="feature_health_setup_title">Let\'s set up your health profile</string>
+    <string name="feature_health_setup_description">Add a few details to get started with tracking your health and wellness.</string>
+    <string name="feature_health_setup_get_started_button">Get Started</string>
+    <string name="feature_health_setup_footer">You can set up other whenever you\'re ready</string>
     <string name="feature_health_body_measurement_title">Body Measurements</string>
     <string name="feature_health_body_measurement_kg">kg</string>
     <string name="feature_health_body_measurement_cm">cm</string>
