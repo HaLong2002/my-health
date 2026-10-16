@@ -15,6 +15,8 @@
     <string name="expand_more_icon">Expand more</string>
     <string name="check_list_icon">Check list</string>
     <string name="quantity">Qty: %1d</string>
+    <string name="required">Required</string>
+    <string name="optional">Optional</string>
 
     <!-- Home -->
     <string name="feature_home_title">Home</string>
@@ -23,15 +25,17 @@
 
     <!-- Health -->
     <string name="feature_health_title">Health</string>
-    <string name="feature_health_setup_title">Let\'s set up your health profile</string>
-    <string name="feature_health_setup_description">Add a few details to get started with tracking your health and wellness.</string>
-    <string name="feature_health_setup_get_started_button">Get Started</string>
-    <string name="feature_health_setup_footer">You can set up other whenever you\'re ready</string>
+    <string name="feature_health_setup_title">Set up your health profile</string>
+    <string name="feature_health_setup_description">Add your basic information to start tracking your health.</string>
+    <string name="feature_health_setup_get_started_button">Complete Setup</string>
     <string name="feature_health_body_measurement_title">Body Measurements</string>
+    <string name="feature_health_body_measurement_description">Weight, height and body measurements</string>
     <string name="feature_health_body_measurement_kg">kg</string>
     <string name="feature_health_body_measurement_cm">cm</string>
     <string name="feature_health_body_measurement_empty">You don\'t have any body measurements yet, but you can start here:</string>
     <string name="feature_health_body_measurement_add_title">Add Body Measurements</string>
+    <string name="feature_health_weight_goal_title">Weight Goal</string>
+    <string name="feature_health_weight_goal_description">Set your target weight</string>
 
     <!-- Account -->
     <string name="feature_account_title">Account</string>
