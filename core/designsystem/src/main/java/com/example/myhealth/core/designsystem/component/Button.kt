@@ -46,7 +46,7 @@ fun MHButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         enabled = enabled,
         colors = colors,
         content = content,
@@ -63,7 +63,7 @@ fun MHLeadingButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
         enabled = enabled,
         colors = colors,
