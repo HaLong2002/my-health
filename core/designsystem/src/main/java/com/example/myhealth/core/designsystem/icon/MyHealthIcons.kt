@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.Accessibility
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ChecklistRtl
 import androidx.compose.material.icons.rounded.Close
@@ -57,4 +58,5 @@ object MyHealthIcons {
     val MoreVert = Icons.Default.MoreVert
     val Info = Icons.Rounded.Info
     val BodyMeasurement = Icons.Rounded.Accessibility
+    val Calendar = Icons.Rounded.CalendarMonth
 }

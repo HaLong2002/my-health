@@ -157,7 +157,7 @@ private fun BodyMeasurementSection(
                         )
                         Spacer(Modifier.width(8.dp))
                         Text(
-                            text = stringResource(id = R.string.feature_health_body_measurement_add_title),
+                            text = stringResource(id = R.string.feature_health_add_body_measurement_title),
                             fontWeight = FontWeight.Bold,
                         )
                     }
