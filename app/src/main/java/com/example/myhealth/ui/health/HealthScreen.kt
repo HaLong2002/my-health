@@ -13,6 +13,7 @@ import com.example.myhealth.ui.health.setup.HealthSetupScreen
 @Composable
 fun HealthScreen(
     modifier: Modifier = Modifier,
+    onNavigateToBodyMeasurements: () -> Unit,
     viewModel: HealthViewModel = hiltViewModel(),
 ) {
     val bodyMeasurementSummary: BodyMeasurementSummary by viewModel.bodyMeasurementSummary.collectAsStateWithLifecycle()
@@ -32,6 +33,7 @@ fun HealthScreen(
             } else {
                 HealthSetupScreen(
                     modifier = modifier,
+                    onNavigateToBodyMeasurements = onNavigateToBodyMeasurements,
                 )
             }
         }

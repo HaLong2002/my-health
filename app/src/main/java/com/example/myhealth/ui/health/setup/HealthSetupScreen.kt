@@ -33,6 +33,7 @@ import com.example.myhealth.core.designsystem.theme.MyHealthTheme
 @Composable
 fun HealthSetupScreen(
     modifier: Modifier = Modifier,
+    onNavigateToBodyMeasurements: () -> Unit,
 ) {
     Scaffold(
         modifier = modifier,
@@ -55,7 +56,9 @@ fun HealthSetupScreen(
             )
 
             HealthSetupContent(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onBodyMeasurementsClick = onNavigateToBodyMeasurements,
+                onWeightGoalClick = {},
             )
 
             MHButton(
@@ -73,6 +76,8 @@ fun HealthSetupScreen(
 @Composable
 private fun HealthSetupContent(
     modifier: Modifier = Modifier,
+    onBodyMeasurementsClick: () -> Unit,
+    onWeightGoalClick: () -> Unit,
 ) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -80,13 +85,13 @@ private fun HealthSetupContent(
         HealthSetupContentItem(
             titleResId = R.string.feature_health_body_measurement_title,
             descriptionResId = R.string.feature_health_body_measurement_description,
-            required = true,
+            onItemClick = onBodyMeasurementsClick,
         )
 
         HealthSetupContentItem(
             titleResId = R.string.feature_health_weight_goal_title,
             descriptionResId = R.string.feature_health_weight_goal_description,
-            required = false,
+            onItemClick = onWeightGoalClick,
         )
     }
 }
@@ -96,14 +101,14 @@ private fun HealthSetupContentItem(
     modifier: Modifier = Modifier,
     @StringRes titleResId: Int,
     @StringRes descriptionResId: Int,
-    required: Boolean,
+    onItemClick: () -> Unit,
 ) {
     Column(
         modifier = modifier,
     ) {
         Row(
             modifier = Modifier.clickable(
-              onClick = {}
+              onClick = onItemClick,
             ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -121,17 +126,6 @@ private fun HealthSetupContentItem(
                 Text(
                     text = stringResource(descriptionResId)
                 )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = if (required) {
-                        stringResource(R.string.required)
-                    } else {
-                        stringResource(R.string.optional)
-                    },
-                    style = MaterialTheme.typography.bodyMedium,
-                )
             }
             Icon(
                 imageVector = MyHealthIcons.ArrowForward,
@@ -148,6 +142,8 @@ private fun HealthSetupContentItem(
 @Composable
 private fun HealthSetupScreenPreview() {
     MyHealthTheme {
-        HealthSetupScreen()
+        HealthSetupScreen(
+            onNavigateToBodyMeasurements = {},
+        )
     }
 }
