@@ -11,4 +11,11 @@ data class BodyMeasurementSummary(
     val waist: MeasurementSummary = MeasurementSummary(),
     val chest: MeasurementSummary = MeasurementSummary(),
     val hip: MeasurementSummary = MeasurementSummary(),
-)
+) {
+    val hasMeasurements: Boolean
+        get() = weight.current != null ||
+                height.current != null ||
+                waist.current != null ||
+                chest.current != null ||
+                hip.current != null
+}
