@@ -8,9 +8,7 @@ import com.example.myhealth.ui.health.body_measurements.BodyMeasurementsScreen
 
 fun EntryProviderScope<NavKey>.healthEntry(navigator: Navigator) {
     entry<HealthNavKey> {
-        HealthScreen(
-            onNavigateToBodyMeasurements = { navigator.navigate(BodyMeasurementsNavKey) }
-        )
+        HealthScreen()
     }
 
     entry<BodyMeasurementsNavKey> {
