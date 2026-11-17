@@ -5,9 +5,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,20 +32,23 @@ fun BasicInformationStep(
     onHeightChange: (String) -> Unit,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .imePadding(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         MeasurementInput(
             value = health.weight,
             onValueChange = onWeightChange,
-            label = stringResource(R.string.feature_health_setup_your_weight),
+            label = stringResource(R.string.feature_health_setup_your_current_weight),
             unit = stringResource(R.string.feature_health_body_measurement_kg),
         )
 
         MeasurementInput(
             value = health.height,
             onValueChange = onHeightChange,
-            label = stringResource(R.string.feature_health_setup_your_height),
+            label = stringResource(R.string.feature_health_setup_your_current_height),
             unit = stringResource(R.string.feature_health_body_measurement_cm),
         )
 
@@ -56,7 +63,7 @@ fun BasicInformationStep(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "20.4",
+                text = health.yourBmi,
                 style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )

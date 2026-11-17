@@ -28,8 +28,8 @@
     <string name="feature_health_title">Health</string>
     <string name="feature_health_setup_title">Set up your health profile</string>
     <string name="feature_health_setup_description">Add your basic information to start tracking your health.</string>
-    <string name="feature_health_setup_your_weight">Your weight</string>
-    <string name="feature_health_setup_your_height">Your height</string>
+    <string name="feature_health_setup_your_current_weight">Your current weight</string>
+    <string name="feature_health_setup_your_current_height">Your current height</string>
     <string name="feature_health_setup_bmi_preview">Your BMI preview</string>
     <string name="feature_health_setup_bmi_underweight">Underweight</string>
     <string name="feature_health_setup_bmi_normal">Normal</string>
