@@ -5,3 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 object HealthNavKey : NavKey
+
+@Serializable
+object BodyMeasurementsNavKey : NavKey

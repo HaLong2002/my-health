@@ -92,6 +92,7 @@ fun GroceryListForm(
         Spacer(modifier = Modifier.height(16.dp))
 
         MHButton(
+            modifier = Modifier.fillMaxWidth(),
             onClick = onSave,
         ) {
             Text(text = stringResource(id = R.string.feature_groceries_save_button))
